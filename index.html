@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kovid19</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/covstats.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" href="images/logo-small2x.png">
+    <style>
+        circle {
+            animation-name: liveAnimation;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+        }
+
+        @keyframes liveAnimation {
+
+            0%, 100% {
+                fill-opacity: 1;
+            }
+
+            50% {
+                fill-opacity: 0;
+            }
+        }
+
+        .push-modal {
+            /*            display: none;*/
+            z-index: 500;
+            position: absolute;
+            max-width: 720px;
+            width: 96%;
+            height: auto;
+            top: -1200px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+            background: #fff;
+            transition-delay: 150ms;
+            transition-property: top;
+            transition-duration: 750ms;
+            transition-timing-function: cubic-bezier(0.77, 0, 0.11, 0.97);
+            border-radius: 20px;
+        }
+
+            .push-modal h3 {
+                font-size: 28px;
+                margin: 20px;
+                height: auto;
+                align-content: center;
+                text-align: center;
+            }
+
+            .push-modal p {
+                align-content: center;
+                text-align: center;
+            }
+
+        .push-modal-active {
+            top: 10vh;
+        }
+
+        .email {
+            font-size: 16px;
+            padding: 10px;
+        }
+    </style>
+    <script>(function (w, d) { w.CollectId = "607d456f07cea40a85f63223"; var h = d.head || d.getElementsByTagName("head")[0]; var s = d.createElement("script"); s.setAttribute("type", "text/javascript"); s.async = true; s.setAttribute("src", "https://collectcdn.com/launcher.js"); h.appendChild(s); })(window, document);</script>
+</head>
+
+<body class="nk-body npc-covid ui-default ui-rounder">
+    <!-- Messenger Plugin chat Code -->
+    <div id="fb-root"></div>
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v10.0'
+            });
+        };
+
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <div id="fb-root"></div>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+    <div class="push-modal" style="z-index: 1000">
+        <h3 id="speak-to-text">Bạn có muốn nhận cảnh báo khi có thông tin quan trọng về tình hình dịch bệnh?</h3>
+        <p>Điền email vào ô bên dưới để nhận thông tin mới nhất.</p>
+        <div style="display: flex; justify-content: center;">
+            <form onsubmit="return false" style="text-align: center;">
+                <input class="email" type="email" name="email" placeholder="Email..." style="width:100%;margin: 20px 0px" required/>
+                <button type="submit" class="btn btn-round btn-outline-primary button-send"
+                        style="background: #1965ff;outline: none;color: #fff;border-color: #fff;padding: 10px 20px;margin: 10px 0px">
+                    <i class="far fa-paper-plane"></i> <span style="margin-left: 10px"> Gửi</span>
+                </button>
+            </form>
+
+        </div>
+    </div>
+    <div class="nk-app-root">
+
+        <div class="nk-main">
+            <!-- Your Plugin chat code -->
+            <div class="fb-customerchat"
+                 attribution="page_inbox"
+                 page_id="106137348273230">
+            </div>
+            <div class="nk-sidebar nk-sidebar-short nk-sidebar-fixed is-light" data-content="sidebarMenu">
+                <div class="nk-sidebar-element nk-sidebar-head">
+                    <div class="nk-sidebar-brand">
+                        <a href="index.html" class="logo-link nk-sidebar-logo">
+                            <img class="logo-light logo-img" src="images/logo-white.png" srcset="images/logo-white.png"
+                                 alt="" style="width: 100%;">
+                            <img class="logo-dark logo-img" src="images/logo-dark.png" srcset="images/logo-dark.png"
+                                 alt="" style="width: 100%;">
+                        </a>
+                        <a href="index.html" class="logo-link nk-sidebar-logo-small">
+                            <img class="logo-light logo-img" src="images/logo-small.png"
+                                 srcset="images/logo-small2x.png 2x" alt="" style="width: 100%;">
+                            <img class="logo-dark logo-img" src="images/logo-dark-small.png"
+                                 srcset="images/logo-dark-small.png 2x" alt="" style="width: 100%;">
+                        </a>
+                    </div>
+                    <div class="nk-menu-trigger mr-n2">
+                        <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu">
+                            <em class="icon ni ni-arrow-left"></em>
+                        </a>
+                    </div>
+                </div>
+                <div class="nk-sidebar-element">
+                    <div class="nk-sidebar-body" data-simplebar>
+                        <div class="nk-sidebar-content">
+                            <div class="nk-sidebar-menu nk-sidebar-menu-middle">
+
+                                <ul class="nk-menu short-menu">
+                                    <li class="nk-menu-item">
+                                        <a href="index.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon">
+                                                <i class="fas fa-globe-asia"
+                                                   style="width: 100%;"></i>
+                                            </span>
+                                            <span class="nk-menu-text">Tổng quan</span>
+                                            <span class="nk-menu-tooltip" title="Tổng quan"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="./html/countries.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon">
+                                                <i class="fas fa-flag"
+                                                   style="width: 100%;"></i>
+                                            </span>
+                                            <span class="nk-menu-text">Các quốc gia</span>
+                                            <span class="nk-menu-tooltip" title="Các quốc gia"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="./html/symptoms.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon">
+                                                <i class="fas fa-virus"
+                                                   style="width: 100%;"></i>
+                                            </span>
+                                            <span class="nk-menu-text">Các triệu chứng</span>
+                                            <span class="nk-menu-tooltip" title="Các triệu chứng"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="./html/prevention.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon">
+                                                <i class="fas fa-shield-virus"
+                                                   style="width: 100%;"></i>
+                                            </span>
+                                            <span class="nk-menu-text">Cách phòng tránh</span>
+                                            <span class="nk-menu-tooltip" title="Cách phòng tránh"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="html/news.html" class="nk-menu-link" target="_blank">
+                                            <span class="nk-menu-icon">
+                                                <i class="far fa-newspaper"
+                                                   style="width: 100%;"></i>
+                                            </span>
+                                            <span class="nk-menu-text">Tin tức</span>
+                                            <span class="nk-menu-tooltip" title="Tin tức"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="html/videos.html" class="nk-menu-link" target="_blank">
+                                            <span class="nk-menu-icon">
+                                                <i class="fab fa-youtube"
+                                                   style="width: 100%;"></i>
+                                            </span>
+                                            <span class="nk-menu-text">Video</span>
+                                            <span class="nk-menu-tooltip" title="Video"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="html/faqs.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon">
+                                                <i class="far fa-question-circle"
+                                                   style="width: 100%;"></i>
+                                            </span>
+                                            <!-- <em class="icon ni ni-help"></em> -->
+                                            <span class="nk-menu-text">FAQs</span>
+                                            <span class="nk-menu-tooltip" title="FAQs"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="nk-sidebar-footer d-none d-md-block">
+                                <ul class="nk-menu short-menu">
+                                    <li class="nk-menu-item">
+                                        <a href="#" data-toggle="modal" data-target="#about-app" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><i class="fas fa-info-circle"></i></span>
+                                            <span class="nk-menu-text">About Data</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="nk-wrap ">
+                <div class="nk-footer" style="background: #1965ff; color: #ffffff">
+                    <div class="container-fluid">
+                        <div class="nk-footer-wrap gy-1 gx-4">
+                            <div class="nk-footer-links">
+                                <!-- <ul class="nav nav-sm">
+                                    <li class="nav-item"><a class="nav-link" href="https://covid19api.com/"
+                                            data-toggle="modal" data-target="#about-app">About Data</a></li>
+                                </ul> -->
+                                <strong style="font-weight: 600">Hãy ở nhà!</strong> Nếu bạn bị sốt, ho và khó thở, hãy
+                                nhanh chóng đến khai báo ở cơ sở y tế gần nhất.
+                                <br /> Gọi trước và báo cho nhà cung cấp dịch vụ y tế của bạn càng sớm càng tốt để được
+                                tư vấn y tế.
+                            </div>
+                            <div class="nk-footer-copyright">
+                                <!-- &copy; 2021, Powered by <a href="#"
+                                    target="_blank">me</a></a> -->
+                                <button class="btn btn-round btn-outline-primary save-page"
+                                        style="outline: none;color: #fff;border-color: #fff;padding: 10px 20px;">
+                                    <i class="fas fa-bookmark"></i> <span style="margin-left: 10px">
+                                        Lưu
+                                        trang
+                                    </span>
+                                </button>
+                                <button class="btn btn-round btn-outline-primary fb-share-button"
+                                        data-href="http://127.0.0.1:5500/index.html" data-layout="button"
+                                        style="outline: none;color: #fff;border-color: #fff;padding: 10px 20px;">
+                                    <i class="fab fa-facebook-f"></i> <span style="margin-left: 10px">
+                                        Chia
+                                        sẻ
+                                    </span>
+                                </button>
+                                <button class="btn btn-round btn-outline-primary get-notification"
+                                        style="outline: none;color: #fff;border-color: #fff;padding: 10px 20px;">
+                                    <i class="fab fa-google"></i> <span style="margin-left: 10px">
+                                        Nhận thông
+                                        báo
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nk-header nk-header-fluid nk-header-fixed nk-header-onlymobile is-light">
+                    <div class="container-fluid">
+                        <div class="nk-header-wrap">
+                            <div class="nk-header-brand">
+                                <a href="index.html" class="logo-link">
+                                    <img class="logo-light logo-img" src="images/logo.png" srcset="images/logo2x.png 2x"
+                                         alt="">
+                                    <img class="logo-dark logo-img" src="images/logo-dark.png"
+                                         srcset="images/logo-dark2x.png 2x" alt="">
+                                </a>
+                            </div>
+                            <div class="nk-menu-trigger ml-auto mr-n1">
+                                <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu">
+                                    <i class="fas fa-bars"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-body">
+
+
+                            <div class="nk-block-head nk-block-head-sm">
+                                <div class="nk-block-between flex-wrap g-1 align-start">
+                                    <div class="nk-block-head-content">
+                                        <h5 class="nk-block-title">
+                                            Vi-rút corona (COVID-19)
+                                            <button class="btn-speak-control btn btn-round btn-outline-primary"
+                                                    style="outline: none;">
+                                                <i class="fas fa-volume-mute"
+                                                   style="display: none;"></i><i class="fas fa-volume-up"
+                                                                                 style="display: block;"></i>
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div class="nk-block-head-content">
+                                        <p class="note-text"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="nk-block">
+                                <div class="row g-gs">
+                                    <div class="col-xl-4">
+                                        <div class="row g-gs">
+                                            <div class="col-lg-6 col-xl-12">
+                                                <div class="card card-bordered card-full">
+                                                    <div class="card-inner">
+                                                        <div class="nk-cov-wg1">
+                                                            <div class="card-title">
+                                                                <h5 class="title"
+                                                                    style="display:inline-block;width: 83%;">
+                                                                    Tất cả ca
+                                                                    nhiễm -
+                                                                    <small>
+                                                                        Thế
+                                                                        giới
+                                                                    </small>
+                                                                </h5>
+                                                                <button class="btn-speak-global btn-speak btn btn-round btn-outline-primary"
+                                                                        style="outline: none;">
+                                                                    <i class="fas fa-volume-mute"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="nk-cov-data">
+                                                                <h6 class="overline-title">Tổng số ca nhiễm</h6>
+                                                                <span class="amount global-totalConfirmed count"></span>
+                                                                <small>+</small>
+                                                                <small class="count global-newConfirmed">0</small>
+                                                            </div>
+                                                            <div class="nk-cov-wg1-progress">
+                                                                <div class="progress progress-reverse progress-md progress-pill progress-bordered">
+                                                                    <div class="progress-bar bg-danger" data-progress=""
+                                                                         data-toggle="tooltip" title="Tử vong: "></div>
+                                                                    <div class="progress-bar bg-success"
+                                                                         data-progress="" data-toggle="tooltip"
+                                                                         title="Đã hồi phục: "></div>
+                                                                    <div class="progress-bar bg-purple" data-progress=""
+                                                                         data-toggle="tooltip"
+                                                                         title="Ca nhiễm hiện tại: "></div>
+                                                                </div>
+                                                            </div>
+                                                            <ul class="nk-cov-wg1-data">
+                                                                <li>
+                                                                    <div class="title">
+                                                                        <div class="dot dot-lg sq bg-purple"></div>
+                                                                        <span>Ca nhiễm hiện tại</span>
+                                                                    </div>
+                                                                    <div class="count global-activeCases"
+                                                                         data-count="1000">0</div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="title">
+                                                                        <div class="dot dot-lg sq bg-success"></div>
+                                                                        <span>Đã hồi phục</span>
+                                                                    </div>
+                                                                    <div class="count global-recovered" data-count="">
+                                                                        0
+                                                                    </div>
+                                                                </li>
+                                                                <li>
+                                                                    <div class="title">
+                                                                        <div class="dot dot-lg sq bg-danger"></div>
+                                                                        <span>Tử vong</span>
+                                                                    </div>
+                                                                    <div class="count global-deaths" data-count="">
+                                                                        0
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="nk-cov-wg-note">
+                                                                Tỷ lệ
+                                                                <span class="text-primary">Hồi phục (80.53%)</span> &amp;
+                                                                <span class="text-primary">Tử vong (2.21%)</span>.
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-xl-12">
+                                                <div class="card card-bordered card-full">
+                                                    <div class="card-inner">
+                                                        <div class="nk-cov-wg2">
+                                                            <div class="card-title country-allConfirmed">
+                                                                <h5 class="title "
+                                                                    style="display:inline-block;width: 83%;">
+                                                                    Tất cả ca
+                                                                    nhiễm -
+                                                                    <small></small>
+                                                                </h5>
+                                                                <button class="btn-speak-country btn-speak btn btn-round btn-outline-primary"
+                                                                        style="outline: none;">
+                                                                    <i class="fas fa-volume-mute"></i>
+                                                                </button>
+                                                            </div>
+                                                            <form autocomplete="off">
+                                                                <input type="text" name="search-countries"
+                                                                       id="search-countries" required
+                                                                       list="countries-datalist"
+                                                                       placeholder="Tìm kiếm quốc gia"
+                                                                       style="height: 45px;width: 63%; border-radius: 10px; border: 1px solid #dbdfea; padding: 10px 20px; outline: none;">
+                                                                <datalist id="countries-datalist">
+                                                                    <option value="Vietnam">Việt Nam</option>
+                                                                </datalist>
+                                                                <button id="search-btn"
+                                                                        style="height: 45px;width: 35%; background: white; border: 1px solid #dbdfea;padding: 10px 20px; outline: none;border-radius: 10px;">
+                                                                    Tìm
+                                                                    kiếm
+                                                                </button>
+                                                            </form>
+                                                            <div class="nk-cov-wg2-block">
+                                                                <div class="nk-cov-wg2-group-top">
+                                                                    <div class="nk-cov-group">
+                                                                        <div class="nk-cov-data">
+                                                                            <h6 class="overline-title">Ca nhiễm</h6>
+                                                                            <span class="amount amount-sm count countries-count countries-totalConfirmed"
+                                                                                  data-count="">
+                                                                                0
+                                                                            </span>
+                                                                            <small>+</small>
+                                                                            <small class="countries-count countries-newConfirmed">0</small>
+                                                                        </div>
+                                                                        <div class="nk-cov-data">
+                                                                            <h6 class="overline-title">Tử vong</h6>
+                                                                            <span class="amount count amount-sm text-danger countries-totalDeaths countries-count">
+                                                                            </span>
+                                                                            <small>+</small>
+                                                                            <small class="countries-count countries-newDeaths">0</small>
+                                                                        </div>
+                                                                        <div class="nk-cov-data">
+                                                                            <h6 class="overline-title">Đã hồi phục</h6>
+                                                                            <span class="amount amount-sm text-success countries-totalRecovered count countries-count">
+                                                                            </span>
+                                                                            <small>+</small>
+                                                                            <small class="countries-count countries-newConfirmed">0</small>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="nk-cov-wg-note">
+                                                                        Tỷ lệ
+                                                                        <span class="text-primary">
+                                                                            Hồi phục
+                                                                            (74.08%)
+                                                                        </span> &amp;
+                                                                        <span class="text-primary">Tử vong (1.82%)</span>.
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="nk-cov-wg3-group-bottom nk-cov-wg3-group">
+                                                                <ul class="nav nav-tabs nav-tabs-card nav-tabs-xs">
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link active" data-toggle="tab"
+                                                                           href="#country-daily">Số liệu thống kê</a>
+                                                                    </li>
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link" data-toggle="tab"
+                                                                           href="#country-compare">Tổng quan</a>
+                                                                    </li>
+                                                                </ul>
+                                                                <div class="tab-content mt-0">
+                                                                    <div class="tab-pane active" id="country-daily">
+                                                                        <div class="nk-cov-wg3-legend-wrap">
+                                                                            <h6 class="title">
+                                                                                Số liệu thống kê
+                                                                            </h6>
+                                                                            <ul class="nk-cov-wg3-legend">
+                                                                                <li>
+                                                                                    <div class="dot dot-md sq bg-blue">
+                                                                                    </div>
+                                                                                    <span>Ca nhiễm</span>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <div class="dot dot-md sq bg-danger">
+                                                                                    </div>
+                                                                                    <span>Tử vong</span>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <div class="dot dot-md sq bg-success">
+                                                                                    </div>
+                                                                                    <span>Đã bình phục</span>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div class="nk-cov-wg3-ck"
+                                                                             id="countryDataNumber"
+                                                                             style="height: 100%;">
+                                                                            <!-- <canvas class="covid-case-bar-chart-country"
+                                                                                id="countryDataNumber"></canvas> -->
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="tab-pane" id="country-compare">
+                                                                        <div class="nk-cov-wg3-legend-wrap">
+                                                                            <h6 class="title">
+                                                                                Cập nhật tình hình
+                                                                            </h6>
+                                                                            <ul class="nk-cov-wg3-legend">
+                                                                                <li>
+                                                                                    <div class="dot dot-md sq bg-blue">
+                                                                                    </div>
+                                                                                    <span>Ca nhiễm hiện tại</span>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <div class="dot dot-md sq bg-danger">
+                                                                                    </div>
+                                                                                    <span>Tử vong</span>
+                                                                                </li>
+                                                                                <li>
+                                                                                    <div class="dot dot-md sq bg-success">
+                                                                                    </div>
+                                                                                    <span>Đã bình phục</span>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div class="nk-cov-wg3-ck"
+                                                                             id="countryDataNumberActive"
+                                                                             style="height: 100%;">
+                                                                            <!-- <canvas
+                                                                                class="covid-case-line-chart-country"
+                                                                                id="countrySpread"></canvas> -->
+                                                                        </div>
+                                                                        <div style="width: 100%;display:flex; justify-content:space-between">
+                                                                            <button id="donnut-button"
+                                                                                    class="btn btn-round btn-outline-primary"
+                                                                                    style="width: 30%;height: 45px; padding: 10px 20px;outline: none; ">
+                                                                                <i class="fas fa-dot-circle"></i>
+                                                                                Vòng
+                                                                            </button>
+                                                                            <button id="pie-button"
+                                                                                    class="btn btn-round btn-outline-primary"
+                                                                                    style="width: 30%;height: 45px; padding: 10px 20px;outline: none; ">
+                                                                                <i class="fas fa-chart-pie"></i>
+                                                                                Tròn
+                                                                            </button>
+                                                                            <button id="semi-button"
+                                                                                    class="btn btn-round btn-outline-primary"
+                                                                                    style="width: 30%;height: 45px; padding: 10px 20px;outline: none;">
+                                                                                <i class="fab fa-cuttlefish"></i>
+                                                                                Cung
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-8">
+                                        <div class="card card-bordered card-full">
+                                            <div class="nk-cov-wg4">
+                                                <div class="nk-cov-wg4-aside">
+                                                    <div class="nk-cov-wg4-aside-head">
+                                                        <h6 class="nk-cov-wg4-aside-title">Ca nhiễm</h6>
+                                                        <div class="nk-cov-wg4-aside-action mr-n2"
+                                                             style="color: white;background-color:red; padding: 3px 5px;border-radius: 4px; text-align:center;font-weight: 600;font-family: sans-serif;">
+                                                            <svg style="width: 18px; height:20px;">
+                                                                <circle cx="10" cy="9" r="6" fill="white" stroke="white"
+                                                                        stroke-width="2" />
+                                                            </svg> LIVE
+                                                        </div>
+                                                    </div>
+                                                    <div class="nk-cov-wg4-aside-body" data-simplebar>
+                                                        <ul class="nk-cov-wg4-list">
+                                                            <li>
+                                                                <a class="nk-cov-wg4-list-item" data-id="global">
+                                                                    <span class="title">
+                                                                        <img src="images/flags/global.png" alt="World"
+                                                                             style="height:15px;border-radius:3px">
+                                                                        World
+                                                                    </span>
+                                                                    <span class="count global-totalConfirmed country-count"
+                                                                          id="live-global"></span>
+                                                                </a>
+                                                            </li>
+
+                                                        </ul>
+                                                    </div>
+                                                    <div class="nk-cov-wg4-aside-foot text-center">
+                                                        <a href="/html/countries.html"
+                                                           class="btn btn-round btn-outline-primary">
+                                                            Danh sách các quốc gia
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="nk-cov-wg4-content">
+                                                    <div class="nk-cov-wg4-map">
+                                                        <div class="vector-map" id="worldMap"></div>
+                                                    </div>
+                                                    <div class="nk-cov-wg4-meta">
+                                                        <div class="nk-cov-wg4-meta-tools">
+                                                            <strong class="sub-text-sm">Diễn biến hàng ngày</strong>
+                                                        </div>
+                                                        <ul class="nk-cov-wg4-meta-data">
+                                                            <li>
+                                                                <div class="dot dot-lg sq bg-blue"></div>
+                                                                <span>Ca nhiễm</span>
+                                                            </li>
+                                                            <li>
+                                                                <div class="dot dot-lg sq bg-success"></div>
+                                                                <span>Đã hồi phục</span>
+                                                            </li>
+                                                            <li>
+                                                                <div class="dot dot-lg sq bg-danger"></div>
+                                                                <span>Tử vong</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="nk-cov-wg3-group-bottom nk-cov-wg3-group">
+                                                        <ul class="nav nav-tabs nav-tabs-card nav-tabs-xs">
+                                                            <li class="nav-item">
+                                                                <a class="nav-link active" data-toggle="tab" href="#world-daily">Số liệu thống kê</a>
+                                                            </li>
+                                                            <li class="nav-item">
+                                                                <a class="nav-link" data-toggle="tab" href="#world-compare">Tổng quan</a>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="tab-content mt-0">
+                                                            <div class="tab-pane active" id="world-daily">
+                                                                <div class="nk-cov-wg3-legend-wrap">
+                                                                    <h6 class="title" style="margin-left: 20px;">
+                                                                        Số liệu thống kê 6 tháng qua
+                                                                    </h6>
+                                                                    <ul class="nk-cov-wg3-legend">
+                                                                        <li>
+                                                                            <div class="dot dot-md sq bg-blue">
+                                                                            </div>
+                                                                            <span>Ca nhiễm</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="dot dot-md sq bg-danger">
+                                                                            </div>
+                                                                            <span>Tử vong</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="dot dot-md sq bg-success">
+                                                                            </div>
+                                                                            <span>Đã bình phục</span>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="nk-cov-wg3-ck" id="countryDataNumber" style="height: 100%;">
+                                                                    <div class="chartjs-size-monitor">
+                                                                        <div class="chartjs-size-monitor-expand">
+                                                                            <div class=""></div>
+                                                                        </div>
+                                                                        <div class="chartjs-size-monitor-shrink">
+                                                                            <div class=""></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <canvas style="display: block; height: 296px; width: 594px;" width="1188" height="592" id="world-chart" class="chartjs-render-monitor"></canvas>
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-pane" id="world-compare">
+                                                                <div class="nk-cov-wg3-legend-wrap">
+                                                                    <h6 class="title" style="margin-left: 20px;">
+                                                                        Cập nhật tình hình 6 tháng qua
+                                                                    </h6>
+                                                                    <ul class="nk-cov-wg3-legend">
+                                                                        <li>
+                                                                            <div class="dot dot-md sq bg-blue">
+                                                                            </div>
+                                                                            <span>Ca nhiễm mới</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="dot dot-md sq bg-danger">
+                                                                            </div>
+                                                                            <span>Tử vong mới</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <div class="dot dot-md sq bg-success">
+                                                                            </div>
+                                                                            <span>Mới bình phục</span>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="nk-cov-wg4-ck" id="mapWorldChart">
+                                                                    <div class="nk-cov-wg4-ck" id="countryDataNumberActive" style="height: 100%;">
+                                                                        <div class="chartjs-size-monitor">
+                                                                            <div class="chartjs-size-monitor-expand">
+                                                                                <div class=""></div>
+                                                                            </div>
+                                                                            <div class="chartjs-size-monitor-shrink">
+                                                                                <div class=""></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <canvas id="world-chart-new" height="227" width="456" class="chartjs-render-monitor" style="display: block; height: 182px; width: 365px;"></canvas>
+                                                                        
+                                                                    </div>
+                                                                    <div style="width: 100%;display:flex; justify-content:space-between">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-md-6">
+                                        <div class="card card-bordered card-full">
+                                            <div class="card-inner">
+                                                <div class="card-title-group mb-1">
+                                                    <div class="card-title country-daily">
+                                                        <h6 class="title">
+                                                            Diễn biến hằng ngày -
+                                                            <small></small>
+                                                        </h6>
+                                                        <p>
+                                                            Các biểu đồ dưới đây cho thấy diễn biến ca nhiễm hằng ngày.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="nk-cov-wg3">
+                                                    <ul class="nav nav-tabs nav-tabs-card nav-tabs-xs">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active" data-toggle="tab"
+                                                               href="">Ca nhiễm</a>
+                                                        </li>
+                                                        
+                                                    </ul>
+                                                    <div class="tab-content mt-0">
+                                                        <div class="tab-pane active" id="world-timeline">
+                                                            <div class="nk-cov-wg3-legend-wrap">
+                                                                <h6 class="title">Các ca nhiễm</h6>
+                                                                <ul class="nk-cov-wg3-legend">
+                                                                    <li>
+                                                                        <div class="dot dot-md sq bg-blue"></div>
+                                                                        <span>Ca nhiễm</span>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="nk-cov-wg3-ck">
+                                                                <canvas class="covid-case-line-chart"
+                                                                        id="countryTimeline" style="height:125px;width:456px"></canvas>
+                                                            </div>
+                                                           
+                                                        </div>
+                                                        <div class="tab-pane" id="world-daily">
+                                                            <div class="nk-cov-wg3-legend-wrap">
+                                                                <h6 class="title">Các ca nhiễm hàng ngày</h6>
+                                                                <ul class="nk-cov-wg3-legend">
+                                                                    <li>
+                                                                        <div class="dot dot-md sq bg-blue"></div>
+                                                                        <span>Ca nhiễm</span>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="nk-cov-wg3-ck">
+                                                                <canvas class="covid-case-bar-chart"
+                                                                        id="worldDaily"></canvas>
+                                                            </div>
+                                                            <div class="chart-label-group ml-5">
+                                                                <div class="chart-label">16 Jan, 2021</div>
+                                                                <div class="chart-label">16 Mar, 2021</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane" id="world-compare">
+                                                            <div class="nk-cov-wg3-legend-wrap">
+                                                                <h6 class="title">Diễn biến hàng ngày</h6>
+                                                                <ul class="nk-cov-wg3-legend">
+                                                                    <li>
+                                                                        <div class="dot dot-md sq bg-blue"></div>
+                                                                        <span>Ca nhiễm</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="dot dot-md sq bg-danger"></div>
+                                                                        <span>Tử vong</span>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="dot dot-md sq bg-success"></div>
+                                                                        <span>Đã bình phục</span>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="nk-cov-wg3-ck">
+                                                                <canvas class="covid-case-line-chart"
+                                                                        id="worldSpread"></canvas>
+                                                            </div>
+                                                            <div class="chart-label-group ml-5">
+                                                                <div class="chart-label">16 Jan, 2021</div>
+                                                                <div class="chart-label">16 Mar, 2021</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4 col-md-6">
+                                        <div class="card card-bordered card-full">
+                                            <div class="card-inner mb-n2">
+                                                <div class="card-title-group">
+                                                    <div class="card-title mb-0">
+                                                        <h6 class="title">Các quốc gia bị ảnh hưởng nặng nề</h6>
+                                                    </div>
+                                                    <div class="card-tools">
+                                                        <a href="https://covstats.themenio.com/demo1/countries"
+                                                           class="link">Xem tất cả</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="nk-tb-list is-medium nk-cov-wg5-table">
+                                                <div class="nk-tb-item nk-tb-head">
+                                                    <div class="nk-tb-col">Quốc gia</div>
+                                                    <div class="nk-tb-col text-right">Ca nhiễm</div>
+                                                    <div class="nk-tb-col text-right">Đã hồi phục</div>
+                                                    <div class="nk-tb-col text-right">Tử vong</div>
+                                                </div>
+                                                
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <div class="card card-bordered card-full is-center-mb">
+                                            <div class="card-inner">
+                                                <div class="card-title-group mb-4">
+                                                    <div class="card-title">
+                                                        <h6 class="title">Worldwide Affected Ratio</h6>
+                                                        <p>The bar show most affected country in ratio.</p>
+                                                    </div>
+                                                </div>
+                                                <div class="nk-cov-wg7">
+                                                    <div class="nk-cov-wg7-list gy-1">
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="nk-footer" style="background: #1965ff; color: #ffffff">
+                    <div class="container-fluid">
+                        <div class="nk-footer-wrap gy-1 gx-4">
+                            <div class="nk-footer-links">
+                                <!-- <ul class="nav nav-sm">
+                                    <li class="nav-item"><a class="nav-link" href="https://covid19api.com/"
+                                            data-toggle="modal" data-target="#about-app">About Data</a></li>
+                                </ul> -->
+                                <strong style="font-weight: 600">Hãy ở nhà!</strong> Nếu bạn bị sốt, ho và khó thở, hãy
+                                nhanh chóng đến khai báo ở cơ sở y tế gần nhất.
+                                <br /> Gọi trước và báo cho nhà cung cấp dịch vụ y tế của bạn càng sớm càng tốt để được
+                                tư vấn y tế.
+                            </div>
+                            <div class="nk-footer-copyright">
+                                <!-- &copy; 2021, Powered by <a href="#"
+                                    target="_blank">me</a></a> -->
+                                <button class="btn-makecall btn btn-round btn-outline-primary"
+                                        style="outline: none;color: #fff;border-color: #fff;padding: 10px 20px;">
+                                    <i class="fas fa-phone-alt"></i> <span style="margin-left: 10px">
+                                        Đường dây
+                                        nóng
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="nk-footer d-md-none">
+        <div class="container-fluid">
+            <div class="nk-footer-wrap gy-1 gx-4">
+                <div class="nk-footer-links">
+                    <ul class="nav nav-sm">
+                        <li class="nav-item">
+                            <a class="nav-link" href="https://covid19api.com/" data-toggle="modal"
+                               data-target="#about-app">About Data</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="nk-footer-copyright">
+                    &copy; 2021, Powered by
+                    <a href="#" target="_blank">me</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" id="about-app">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times"></i>
+                </a>
+                <div class="modal-body">
+                    <h6 class="lead-text text-primary">Các ca nhiễm thay đổi nhanh chóng</h6>
+                    <p>
+                        Dữ liệu này thay đổi nhanh chóng, vì vậy những gì hiển thị có thể đã lỗi thời. Các số liệu có thể
+                        không phải
+                        lúc nào cũng đại diện cho số liệu chính xác. Thông tin về các trường hợp được báo cáo cũng có
+                        trên trang
+                        <a href="https://covid19api.com/" target="_blank">COVID19 API</a>.
+                    </p>
+                    <h6 class="lead-text text-primary">Không bao gồm tất cả các trường hợp</h6>
+                    <p>
+                        Các trường hợp đã xác nhận không phải là tất cả các trường hợp.
+                        Họ chỉ bao gồm những người có kết quả xét nghiệm dương tính.
+                        Các quy tắc kiểm tra và tính khả dụng khác nhau tùy theo quốc gia.
+                    </p>
+                    <div class="note-text">Updated: Mar 18, 2021, 18:09 UTC</div>
+                </div>
+                <div class="modal-footer bg-light justify-content-center py-1">
+                    <div class="sub-text">
+                        Powered by
+                        <a href="#" target="_blank">me</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div id="ajax-modal"></div> -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="js/jquery.min.js"></script>
+    <!-- <script src="js/chart-covstats.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="js/bundle.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="js/jqvmap.js"></script>
+    <script src="js/peerjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/2.0.3/waypoints.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=ytvWH1Y7"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Counter-Up/1.0.0/jquery.counterup.min.js"></script>
+    <script src="js/smtp.js"></script>
+    <script type="text/javascript">
+        const API_URLSUMMARY = "https://api.covid19api.com/summary";
+        const search = $('#search-countries');
+        const dataWorldMap = { "us": "0", "br": "0", "in": "0", "ru": "0", "gb": "0", "fr": "0", "it": "0", "es": "0", "tr": "0", "de": "0", "co": "0", "ar": "0", "mx": "0", "pl": "0", "ir": "0", "za": "0", "ua": "0", "pe": "0", "cz": "0", "id": "0", "nl": "0", "ca": "0", "cl": "0", "ro": "0", "be": "0", "il": "0", "pt": "0", "iq": "0", "se": "0", "ph": "0", "pk": "0", "ch": "0", "bd": "0", "hu": "0", "rs": "0", "jo": "0", "at": "0", "ma": "0", "jp": "0", "ae": "0", "lb": "0", "sa": "0", "pa": "0", "sk": "0", "my": "0", "ec": "0", "by": "0", "bg": "0", "ge": "0", "np": "0", "bo": "0", "hr": "0", "do": "0", "az": "0", "tn": "0", "gr": "0", "kz": "0", "ie": "0", "dk": "0", "ps": "0", "kw": "0", "md": "0", "cr": "0", "lt": "0", "si": "0", "eg": "0", "py": "0", "gt": "0", "et": "0", "am": "0", "hn": "0", "qa": "0", "ng": "0", "ba": "0", "ly": "0", "ve": "0", "om": "0", "mm": "0", "bh": "0", "al": "0", "ke": "0", "mk": "0", "dz": "0", "kr": "98665", "lv": "97149", "ee": "94028", "cn": "90099", "lk": "89655", "gh": "89276", "kg": "87321", "me": "86782", "no": "86362", "zm": "86273", "uz": "81221", "uy": "79923", "fi": "71123", "mz": "66064", "cu": "65962", "sv": "62531", "sg": "60184", "lu": "59210", "af": "56103", "na": "42203", "cy": "41882", "ug": "40651", "cm": "40622", "ci": "39913", "sn": "37693", "zw": "36662", "bw": "35493", "jm": "34665", "mw": "33216", "au": "29196", "sd": "29135", "mt": "27904", "th": "27713", "cd": "27468", "mv": "22373", "mg": "22275", "ao": "21696", "rw": "20761", "yt": "19006", "pf": "18576", "gn": "18562", "ga": "17711", "mr": "17587", "sz": "17283", "sy": "17240", "gf": "16764", "cv": "16440", "re": "14631", "tj": "13308", "ht": "12714", "bf": "12516", "bz": "12400", "ad": "11481", "hk": "11372", "gp": "10976", "ls": "10535", "so": "9968", "ss": "9849", "gy": "9585", "cg": "9564", "ml": "9270", "sr": "9061", "tg": "8839", "bs": "8800", "aw": "8731", "tt": "7839", "mq": "7309", "bj": "6818", "gq": "6736", "ni": "6582", "dj": "6518", "is": "6097", "cw": "5839", "gm": "5153", "cf": "5075", "ne": "4918", "mn": "4806", "td": "4410", "sm": "4356", "gi": "4270", "lc": "4113", "je": "4045", "sl": "3948", "sc": "3770", "km": "3666", "gw": "3558", "bb": "3533", "ye": "3278", "er": "3118", "pg": "3085", "li": "2627", "vn": "2572", "bi": "2563", "nz": "2453", "tc": "2290", "mc": "2173", "st": "2142", "sx": "2101", "lr": "2042", "vc": "1696", "kh": "1632", "mf": "1619", "im": "1462", "bq": "1044", "ag": "1033", "tw": "1005", "bt": "869", "mu": "796", "bl": "775", "bm": "773", "xd": "712", "fo": "661", "tz": "509", "ky": "475", "tl": "271", "bn": "205", "dm": "156", "gd": "154", "vg": "153", "nc": "116", "fj": "67", "fk": "54", "la": "49", "mo": "48", "kn": "44", "gl": "31", "va": "27", "pm": "24", "ai": "22", "ms": "20", "eh": "10", "xz": "9" };
+        const worldTimelineLabel = []
+        const worldTimelineData = []
+        const chartBarCountry = document.querySelector("#countryDataNumber")
+        const chartDoughnutCountry = document.querySelector("#countryDataNumberActive");
+        let typePie = 'pie';
+        let dataChartCountry = [];
+        let dataChartCountryActive = []
+        var isLoad = false;
+        let dateNow = new Date();
+        let isClickVoiceControl = false;
+        let message=''
+        search.val('Viet Nam');
+        drawChartWorld()
+        async function covid(searchKey) {
+            const res = await fetch(API_URLSUMMARY);
+            const data = await res.json();
+            const datalist = document.querySelector('datalist');
+            if (res.status === 200 || res.status === 4) {
+                
+                responsiveVoice.setDefaultVoice("Vietnamese Female");
+                data.textContent = new Date(data.Date);
+                $(".note-text").text(`Cập nhật: ${data.textContent.getUTCDate()} tháng ${data.textContent.getUTCMonth() + 1}, năm ${data.textContent.getFullYear()} ${data.textContent.getUTCHours()}:${data.textContent.getUTCMinutes()}:${data.textContent.getUTCSeconds()}`);
+                const { TotalConfirmed, TotalDeaths, TotalRecovered, NewConfirmed, NewDeaths, NewRecovered } = data.Global;
+                var valueActiveCases = (TotalConfirmed - TotalRecovered - TotalDeaths);
+                $(".global-totalConfirmed").text(stringProcessing(TotalConfirmed.toString()));
+                $(".global-newConfirmed").text(stringProcessing(NewConfirmed.toString()))
+                $(".global-activeCases").text(stringProcessing(valueActiveCases.toString()));
+                $(".global-recovered").text(stringProcessing(TotalRecovered.toString()));
+                $(".global-deaths").text(stringProcessing(TotalDeaths.toString()));
+                $(".nk-cov-wg1-progress").find(".bg-danger").data({ "progress": (TotalDeaths / TotalConfirmed * 100).toFixed(2) })
+                $(".nk-cov-wg1-progress").find(".bg-danger").prop('title', "Tử vong: " + (TotalDeaths / TotalConfirmed * 100).toFixed(2) + "%");
+                $(".nk-cov-wg1-progress").find(".bg-danger").css({ "width": $(".nk-cov-wg1-progress").find(".bg-danger").data("progress") + "%" });
+                $(".nk-cov-wg1-progress").find(".bg-success").data({ "progress": (TotalRecovered / TotalConfirmed * 100).toFixed(2) })
+                $(".nk-cov-wg1-progress").find(".bg-success").prop('title', "Đã hồi phục: " + (TotalRecovered / TotalConfirmed * 100).toFixed(2) + "%");
+                $(".nk-cov-wg1-progress").find(".bg-success").css({ "width": $(".nk-cov-wg1-progress").find(".bg-success").data("progress") + "%" });
+                $(".nk-cov-wg1-progress").find(".bg-purple").data({ "progress": (valueActiveCases / TotalConfirmed * 100).toFixed(2) })
+                $(".nk-cov-wg1-progress").find(".bg-purple").prop('title', "Ca nhiễm hiện tại: " + (valueActiveCases / TotalConfirmed * 100).toFixed(2) + "%");
+                $(".nk-cov-wg1-progress").find(".bg-purple").css({ "width": $(".nk-cov-wg1-progress").find(".bg-purple").data("progress") + "%" });
+                $('[data-toggle="tooltip"]').tooltip();
+                message = `Tình hình dịch bệnh trên thế giới ngày ${ dateNow.getUTCDate() } /${dateNow.getUTCMonth() + 1}/${ dateNow.getFullYear() }
+                có tổng là ${ TotalConfirmed} ca nhiễm, số ca mắc mới là ${NewConfirmed} ca, số ca đang nhiễm là ${valueActiveCases } ca,
+                    số ca hồi phục là ${ TotalRecovered } ca, số ca tử vong là ${ TotalDeaths } ca`
+                worldMap(data);
+                searchCovidCountry(searchKey, data);
+                $('.save-page').click(function () {
+                    // var evt = jQuery.Event("keypress");
+                    // evt.keyCode = 68; // d
+                    // evt.ctrlKey = true;
+                    // $(document).trigger(evt);
+                    alert("Bấm Ctrl+D để lưu trang")
+                })
+                $('.get-notification').click(function () {
+                    $('.push-modal').toggleClass('push-modal-active');
+                })
+                $('.btn-makecall').click(function () {
+                    window.location.pathname = './html/videocall.html'
+                })
+                if (isLoad == false) {
+                    data.Countries.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.Country;
+                        option.textContent = item.Country;
+                        datalist.appendChild(option);
+                    });
+                    // window.RTCPeerConnection
+                    data.Countries.sort(function (a, b) {
+                        return b.TotalConfirmed - a.TotalConfirmed;
+                    }).forEach(item => {
+                        $(".nk-cov-wg4-list").append(`<li><a class="nk-cov-wg4-list-item" data-id="${item.CountryCode.toLowerCase()}"><span class="title"><img src="images/flags/${item.CountryCode.toLowerCase()}.png" alt="${item.Country}" style="height:15px;border-radius:3px;"> ${item.Country}</span><span class="count country-count" id="${item.Slug}">${stringProcessing(item.TotalConfirmed.toString())}</span></a></li>`);
+                    });
+                    loadWorldwideAffected(data)
+                    $('.count').counterUp({
+                        delay: 10,
+                        time: 500
+                    });
+                    
+                    drawChartCountry(dataChartCountry, dataChartCountryActive, typePie);
+                    speakVoice("trên thế giới", TotalConfirmed, NewConfirmed, valueActiveCases, TotalRecovered, TotalDeaths)
+                    $('.btn-speak-control').click(function () {
+                        if (isClickVoiceControl == false) {
+                            responsiveVoice.speak("", "Vietnamese Female", { volume: 0 });
+                            responsiveVoice.cancel();
+                            $('.btn-speak-control').find('.fa-volume-up').css('display', 'none');
+                            $('.btn-speak-control').find('.fa-volume-mute').css('display', 'block');
+                            isClickVoiceControl = true;
+                        }
+                        else {
+                            $('.btn-speak-control').find('.fa-volume-up').css('display', 'block');
+                            $('.btn-speak-control').find('.fa-volume-mute').css('display', 'none');
+                            responsiveVoice.speak("", "Vietnamese Female", { volume: 1.0 });
+                            isClickVoiceControl = false;
+                        }
+                    });
+                    setInterval(function () {
+                        $(".nk-cov-wg4-list").find(".country-count").text(0);
+                        $("#live-global").text(0);
+                        $("#live-global").text(stringProcessing(data.global.TotalConfirmed.toString()));
+                        data.Countries.sort(function (a, b) {
+                            return b.TotalConfirmed - a.TotalConfirmed;
+                        }).forEach(item => {
+                            $(".nk-cov-wg4-list").find("#" + item.Slug).text(item.TotalConfirmed);
+                        });
+                        $('.country-count').counterUp({
+                            delay: 10,
+                            time: 500
+                        });
+                    }, 86400000)
+                    isLoad = true;
+                }
+            }
+            // else
+            // {
+
+            // }
+        }
+        covid(search.val());
+        function speakVoice(location, totalConfirmed, newConfirmed, activeCases, totalRecovered, totalDeaths) {
+            $('.btn-speak-control').find('.fa-volume-up').css('display', 'block');
+            $('.btn-speak-control').find('.fa-volume-mute').css('display', 'none');
+            responsiveVoice.speak(`Tình hình dịch bệnh ${location} ngày ${dateNow.getUTCDate()}/${dateNow.getUTCMonth() + 1}/${dateNow.getFullYear()}
+                                                có tổng là ${totalConfirmed} ca nhiễm, số ca mắc mới là ${newConfirmed} ca, số ca đang nhiễm là ${activeCases} ca,
+                                                số ca hồi phục là ${totalRecovered} ca, số ca tử vong là ${totalDeaths} ca`);
+        }
+        function searchCovidCountry(countryKey, data) {
+            if (countryKey === '' || countryKey === 'Viet Nam') {
+                var country = data.Countries.find(item => item.Country === "Viet Nam");
+                loadDataCountry(country);
+                if (isLoad == true) {
+                    $('.countries-count').counterUp({
+                        delay: 10,
+                        time: 500
+                    });
+                }
+            }
+            else {
+                var country = data.Countries.find(item => item.Country === countryKey);
+                loadDataCountry(country);
+                $('.countries-count').counterUp({
+                    delay: 10,
+                    time: 500
+                });
+            }
+            let date = new Date();
+
+            var country = data.Countries.find(item => item.Country === countryKey);
+            console.log(country);
+            const URL = `https://api.covid19api.com/total/country/${country.Slug}/status/confirmed?from=${date.getFullYear()}-${(date.getMonth() - 2) < 10 ? '0' + (date.getMonth() - 2) : (date.getMonth() - 2)}-${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}T00:00:00Z&to=${date.getFullYear()}-${(date.getMonth() + 1) < 10 ? '0' + (date.getMonth() + 1) : (date.getMonth() + 1)}-${date.getDate() < 10 ? '0' + date.getDate() : date.getDate()}T00:00:00Z`
+            console.log(URL)
+            // console.log(dataChartCountry)
+            $.ajax({
+                url: URL,
+                method: 'GET',
+                contentType: 'application/json',
+                success: function (res) {
+                    res.forEach(item => {
+                        console.log(item)
+                        worldTimelineLabel.push([item.Date + ''])
+                        console.log(typeof (item.Cases))
+                        worldTimelineData.push(item.Cases)
+                    })
+            
+                    var ctx = document.getElementById('countryTimeline');
+                    ctx.innerHTML=""
+                    var myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: worldTimelineLabel,
+                            datasets: [{
+                                borderColor: '#0971fe',
+                                borderWidth: 1,
+                                radius: 0,
+                                data: worldTimelineData,
+                                backgroundColor: 'rgba(9,113,254,0.2)'
+                            }]
+
+                        },
+                        options: {
+
+                            interaction: {
+                                intersect: false
+                            },
+                            plugins: {
+                                legend: false
+                            },
+                            scales: {
+                                x: {
+                                    type: 'linear'
+                                },
+                                yAxes: [{
+                                    display: true,
+                                    ticks: {
+                                        beginAtZero: true,
+                                        fontColor: '#9eaecf',
+                                        callback: function (value) {
+                                            return Math.abs(value) > 999 ? Math.sign(value) * ((Math.abs(value) / 1000).toFixed(1)) + ' k' : Math.sign(value) * Math.abs(value)
+                                        },
+                                        gridLines: {
+                                            color: "#e5ecf8",
+                                            tickMarkLength: 0,
+                                            zeroLineColor: '#e5ecf8'
+                                        },
+                                    }
+                                }],
+                                xAxes: [{
+                                    display: false,
+                                    ticks: {
+                                        fontSize: 9,
+                                        fontColor: '#9eaecf',
+                                        source: 'auto',
+                                        padding: 10
+                                    },
+                                    gridLines: {
+                                        color: "transparent",
+                                        tickMarkLength: 0,
+                                        zeroLineColor: 'transparent',
+                                    },
+                                }],
+                            }
+                        }
+                    })
+                    myChart.update()
+                }
+            })
+ 
+            // worldTimelineLabel.push([])
+        }
+        function loadDataCountry(country) {
+            $(".countries-totalConfirmed").text(stringProcessing(country.TotalConfirmed.toString()));
+            $(".countries-newConfirmed").text(stringProcessing(country.NewConfirmed.toString()));
+            $(".countries-totalRecovered").text(stringProcessing(country.TotalRecovered.toString()));
+            $(".countries-newRecovered").text(stringProcessing(country.NewRecovered.toString()));
+            $(".countries-totalDeaths").text(stringProcessing(country.TotalDeaths.toString()));
+            $(".countries-newDeaths").text(stringProcessing(country.NewDeaths.toString()));
+            $('.country-allConfirmed').find("small").html(country.Country);
+            $('.country-daily small').text(country.Country);
+            dataChartCountry = [country.TotalConfirmed, country.TotalDeaths, country.TotalRecovered];
+            dataChartCountryActive = [country.TotalConfirmed - country.TotalDeaths - country.TotalRecovered, country.TotalDeaths, country.TotalRecovered];
+            drawChartCountry(dataChartCountry, dataChartCountryActive, typePie);
+        }
+        const buttonSearch = $('#search-btn');
+        buttonSearch.click(function (e) {
+            e.preventDefault();
+            covid(search.val());
+        })
+        var myChartPie;
+        $('#donnut-button').click(function () {
+            if (myChartPie.options.circumference === Math.PI) {
+                myChartPie.options.circumference = 2 * Math.PI;
+                myChartPie.options.rotation = -Math.PI / 2;
+            }
+            typePie = "doughnut"
+            drawChartCountry(dataChartCountry, dataChartCountryActive, typePie);
+        })
+        $('#semi-button').click(function () {
+            if (myChartPie.options.circumference === 2 * Math.PI) {
+                myChartPie.options.circumference = Math.PI;
+                myChartPie.options.rotation = -Math.PI;
+            }
+            myChartPie.update();
+        })
+        $('#pie-button').click(function () {
+            if (myChartPie.options.circumference === Math.PI) {
+                myChartPie.options.circumference = 2 * Math.PI;
+                myChartPie.options.rotation = -Math.PI / 2;
+            }
+            typePie = "pie"
+            drawChartCountry(dataChartCountry, dataChartCountryActive, typePie);
+        })
+        function drawChartWorld() {
+            let dataDate = []
+            let dataNewCases = []
+            let dataNewDeaths = []
+            let dataNewTests = []
+            let dataTotalCases = []
+            let dataTotalDeaths = []
+            let dataTotalTests = []
+            let sumNewCases = 0
+            let sumNewDeaths = 0
+            let sumNewTests = 0
+            let sumTotalCases = 0
+            let sumTotalDeaths = 0
+            let sumTotalTests = 0
+            let oldDate
+            const settings = {
+                "async": true,
+                "crossDomain": true,
+                "url": "https://vaccovid-coronavirus-vaccine-and-treatment-tracker.p.rapidapi.com/api/covid-ovid-data/",
+                "method": "GET",
+                "headers": {
+                    "x-rapidapi-key": "5e1893826dmshce5882692e71930p15315djsned6b8cc89a75",
+                    "x-rapidapi-host": "vaccovid-coronavirus-vaccine-and-treatment-tracker.p.rapidapi.com"
+                }
+            };
+
+            $.ajax(settings).done(function (response) {
+                let oldDate = response[0].date
+                let index = 0;
+                response.sort(function (a, b) {
+                    return new Date(a.date) - new Date(b.date);
+                }).forEach(item => {
+                    if (item.date != oldDate) {
+                        dataDate.push(item.date)
+                        dataNewCases.push(sumNewCases)
+                        dataNewDeaths.push(sumNewDeaths)
+                        dataNewTests.push(sumNewTests)
+                        dataTotalCases.push(sumTotalCases)
+                        dataTotalDeaths.push(sumTotalDeaths)
+                        dataTotalTests.push(sumTotalTests)
+                        sumNewCases = 0
+                        sumNewDeaths = 0
+                        sumNewTests = 0
+                        sumTotalCases = 0
+                        sumTotalDeaths = 0
+                        sumTotalTests = 0
+                        oldDate = item.date
+                        index++
+                    }
+                    sumNewCases += item.new_cases
+                    sumNewDeaths += item.new_deaths
+                    sumNewTests += item.new_tests
+                    sumTotalCases += item.total_cases
+                    sumTotalDeaths += item.total_deaths
+                    sumTotalTests += item.total_tests
+                });
+                console.log(dataNewCases)
+                console.log(dataNewDeaths)
+                var ctx = document.getElementById('world-chart');
+               
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: dataDate,
+                        datasets: [{
+                            borderColor: '#0971fe',
+                            borderWidth: 1,
+                            radius: 0,
+                            data: dataTotalCases,
+                            backgroundColor: 'transparent'
+                        }, {
+                                borderColor: '#f6525e',
+                                borderWidth: 1,
+                                radius: 0,
+                                data: dataTotalDeaths,
+                                backgroundColor: 'transparent'
+                            }, {
+                                borderColor: '#1ee0ac',
+                                borderWidth: 1,
+                                radius: 0,
+                                data: dataTotalTests,
+                                backgroundColor: 'transparent'
+                            }]
+                    
+                    },
+                    options: {
+                        
+                        interaction: {
+                            intersect: false
+                        },
+                        plugins: {
+                            legend: false
+                        },
+                        scales: {
+                            x: {
+                                type: 'linear'
+                            },
+                            yAxes: [{
+                                display: true,
+                                ticks: {
+                                    beginAtZero: true,
+                                    fontColor: '#9eaecf',
+                                    callback: function (value) {
+                                        return Math.abs(value) > 999 ? Math.sign(value) * ((Math.abs(value) / 1000).toFixed(1)) + ' k' : Math.sign(value) * Math.abs(value)
+                                    },
+                                    gridLines: {
+                                        color: "#e5ecf8",
+                                        tickMarkLength: 0,
+                                        zeroLineColor: '#e5ecf8'
+                                    },
+                                }
+                            }],
+                            xAxes: [{
+                                display: false,
+                                ticks: {
+                                    fontSize: 9,
+                                    fontColor: '#9eaecf',
+                                    source: 'auto',
+                                    padding: 10
+                                },
+                                gridLines: {
+                                    color: "transparent",
+                                    tickMarkLength: 0,
+                                    zeroLineColor: 'transparent',
+                                },
+                            }],
+                        }
+                    }
+                })
+                ctx = document.getElementById('world-chart-new');
+                myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: dataDate,
+                        datasets: [{
+                            borderColor: '#0971fe',
+                            borderWidth: 1,
+                            radius: 0,
+                            data: dataNewCases,
+                            backgroundColor: 'transparent'
+                        }, {
+                            borderColor: '#f6525e',
+                            borderWidth: 1,
+                            radius: 0,
+                                data: dataNewDeaths,
+                            backgroundColor: 'transparent'
+                        }, {
+                            borderColor: '#1ee0ac',
+                            borderWidth: 1,
+                            radius: 0,
+                                data: dataNewTests,
+                            backgroundColor: 'transparent'
+                        }]
+
+                    },
+                    options: {
+
+                        interaction: {
+                            intersect: false
+                        },
+                        plugins: {
+                            legend: false
+                        },
+                        scales: {
+                            x: {
+                                type: 'linear'
+                            },
+                            yAxes: [{
+                                display: true,
+                                ticks: {
+                                    beginAtZero: true,
+                                    fontColor: '#9eaecf',
+                                    callback: function (value) {
+                                        return Math.abs(value) > 999 ? Math.sign(value) * ((Math.abs(value) / 1000).toFixed(1)) + ' k' : Math.sign(value) * Math.abs(value)
+                                    },
+                                    gridLines: {
+                                        color: "#e5ecf8",
+                                        tickMarkLength: 0,
+                                        zeroLineColor: '#e5ecf8'
+                                    },
+                                }
+                            }],
+                            xAxes: [{
+                                display: false,
+                                ticks: {
+                                    fontSize: 9,
+                                    fontColor: '#9eaecf',
+                                    source: 'auto',
+                                    padding: 10
+                                },
+                                gridLines: {
+                                    color: "transparent",
+                                    tickMarkLength: 0,
+                                    zeroLineColor: 'transparent',
+                                },
+                            }],
+                        }
+                    }
+                })
+                //var myChart = new Chart(ctx, {
+                //    type: 'line',
+                //    data: {
+                //        labels: dataDate,
+                //        datasets: [{
+                //            label: '# of Votes',
+                //            data: dataTotalCases,
+                //            backgroundColor: [
+                //                'red'
+                //            ],
+                //            borderColor: [
+                //                'red'
+                //            ],
+                //            borderWidth: 1
+                //        }, {
+                //                label: '# of Votes',
+                //                data: dataTotalTests,
+                //                backgroundColor: [
+                //                    'blue'
+                //                ],
+                //                borderColor: [
+                //                    'blue'
+                //                ],
+                //                borderWidth: 1
+                //            }, {
+                //                label: '# of Votes',
+                //                data: dataTotalDeaths,
+                //                backgroundColor: [
+                //                    'blue'
+                //                ],
+                //                borderColor: [
+                //                    'transparent'
+                //                ],
+                //                borderWidth: 1
+                //            }]
+                //    },
+                //    options: {
+                //        scales: {
+                //            y: {
+                //                beginAtZero: true
+                //            }
+                //        }
+                //    }
+                //});
+            });
+            
+        }
+        function loadWorldwideAffected(data) {
+            for (var i = 0; i < 5; ++i) {
+                $('.nk-tb-list').append(`<div class="nk-tb-item">
+                                                    <div class="nk-tb-col">
+                                                        <div class="tb-country">
+                                                            <img class="flag" src="images/flags/${(data.Countries[i].CountryCode).toLowerCase()}.png" alt="">
+                                                            <div class="name">${data.Countries[i].CountryCode}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="nk-tb-col text-right">
+                                                        <div class="tb-lead tb-amount">${stringProcessing(data.Countries[i].TotalConfirmed.toString())}</div>
+                                                    </div>
+                                                    <div class="nk-tb-col text-right">
+                                                        <div class="tb-lead tb-amount">${stringProcessing(data.Countries[i].TotalRecovered.toString())}</div>
+                                                    </div>
+                                                    <div class="nk-tb-col text-right">
+                                                        <div class="tb-lead tb-amount">${stringProcessing(data.Countries[i].TotalDeaths.toString())}</div>
+                                                    </div>
+                                                </div>`)
+                $('.nk-cov-wg7-list').append(`<div class="nk-cov-wg7-data">
+                                                            <div class="nk-cov-wg7-data-title">
+                                                                <div class="lead-text">${data.Countries[i].CountryCode}</div>
+                                                            </div>
+                                                            <div class="nk-cov-wg7-data-progress">
+                                                                <div class="progress progress-alt bg-transparent">
+                                                                    <div class="progress-bar" data-bg="#0064ec"
+                                                                         data-progress="${(((data.Countries[i].TotalConfirmed / data.Global.TotalConfirmed) * 100).toFixed(2))}" style='width:${((data.Countries[i].TotalConfirmed / data.Global.TotalConfirmed) * 100).toFixed(2)}%'></div>
+                                                                    <div class="progress-amount">${((data.Countries[i].TotalConfirmed / data.Global.TotalConfirmed)*100).toFixed(2)}%</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="nk-cov-wg7-data-count text-right">
+                                                                <div class="sub-text">${stringProcessing(data.Countries[i].TotalConfirmed.toString())}</div>
+                                                            </div>
+                                                        </div>`)
+                //$(".nk-cov-wg1-progress").find(".bg-danger").data({ "progress": (TotalDeaths / TotalConfirmed * 100).toFixed(2) })
+                //$(".nk-cov-wg1-progress").find(".bg-danger").prop('title', "Tử vong: " + (TotalDeaths / TotalConfirmed * 100).toFixed(2) + "%");
+                //$(".nk-cov-wg1-progress").find(".bg-danger").css({ "width": $(".nk-cov-wg1-progress").find(".bg-danger").data("progress") + "%" });
+            }
+        }
+        function drawChartCountry(data, dataDonnut, typePie) {
+            chartBarCountry.innerHTML = '';
+            chartDoughnutCountry.innerHTML = '';
+            const ctx = document.createElement('canvas');
+            const ctxDonnut = document.createElement('canvas');
+            chartBarCountry.appendChild(ctx);
+            chartDoughnutCountry.appendChild(ctxDonnut);
+            var myChart = new Chart(ctx, {
+                type: 'bar', //line đường thẳng,bar cột,pie tròn,dougnut là bánh
+                data: {
+                    labels: ['Ca nhiễm', 'Tử vong', 'Hồi phục'],
+                    datasets: [{
+                        label: '',
+                        data: data,
+                        backgroundColor: [
+                            '#0971fe',
+                            '#f6525e',
+                            '#1ee0ac',
+                        ],
+                        borderColor: [
+                            '#0971fe',
+                            '#f6525e',
+                            '#1ee0ac',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    legend: {
+                        labels: {
+                            boxWidth: 0,
+                            padding: 0,
+                            fontColor: '#6783b8',
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            display: true,
+                            ticks: {
+                                beginAtZero: true,
+                                fontColor: '#9eaecf',
+                                callback: function (value) {
+                                    return Math.abs(value) > 999 ? Math.sign(value) * ((Math.abs(value) / 1000).toFixed(1)) + ' k' : Math.sign(value) * Math.abs(value)
+                                },
+                                gridLines: {
+                                    color: "#e5ecf8",
+                                    tickMarkLength: 0,
+                                    zeroLineColor: '#e5ecf8'
+                                },
+                            }
+                        }],
+                        xAxes: [{
+                            display: false,
+                            ticks: {
+                                fontSize: 9,
+                                fontColor: '#9eaecf',
+                                source: 'auto',
+                                padding: 10
+                            },
+                            gridLines: {
+                                color: "transparent",
+                                tickMarkLength: 0,
+                                zeroLineColor: 'transparent',
+                            },
+                        }]
+                    }
+                }
+            });
+
+            myChartPie = new Chart(ctxDonnut, {
+                type: typePie,
+                data: {
+                    labels: ['Ca nhiễm hiện tại', 'Tử vong', 'Hồi phục'],
+                    datasets: [{
+                        labels: false,
+                        data: dataDonnut,
+                        backgroundColor: [
+                            '#0971fe',
+                            '#f6525e',
+                            '#1ee0ac',
+                        ],
+                        borderColor: [
+                            '#0971fe',
+                            '#f6525e',
+                            '#1ee0ac',
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+
+                options: {
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    },
+                    legend: {
+                        labels: {
+                            boxWidth: 0,
+                            padding: 0,
+                            fontColor: 'transparent',
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            display: false,
+                            ticks: {
+                                beginAtZero: true,
+                                fontColor: '#9eaecf',
+                                callback: function (value) {
+                                    return Math.abs(value) > 999 ? Math.sign(value) * ((Math.abs(value) / 1000).toFixed(1)) + ' k' : Math.sign(value) * Math.abs(value)
+                                },
+                                gridLines: {
+                                    color: "#e5ecf8",
+                                    tickMarkLength: 0,
+                                    zeroLineColor: '#e5ecf8'
+                                },
+                            }
+                        }],
+                        xAxes: [{
+                            display: false,
+                            ticks: {
+                                fontSize: 9,
+                                fontColor: '#9eaecf',
+                                source: 'auto',
+                                padding: 10
+                            },
+                            gridLines: {
+                                color: "transparent",
+                                tickMarkLength: 0,
+                                zeroLineColor: 'transparent',
+                            },
+                        }]
+                    }
+                }
+            });
+        }
+        function stringProcessing(s) {
+            var index = 0;
+            var snew = '';
+            for (i = s.length - 1; i >= 0; i--) {
+                if (index % 3 == 0 && index != 0) {
+                    snew = s[i] + ',' + snew;
+                }
+                else snew = s[i] + snew;
+                index++;
+            }
+            return snew;
+        }
+        // var worldMap = { map: 'world_en', data: dataWorldMap },
+        //     worldTimeline = {
+        //         labels: worldTimelineLabel,
+        //         dataUnit: 'People',
+        //         lineTension: 0.1,
+        //         datasets: [{
+        //             label: "Ca nhiễm",
+        //             color: "#0971fe",
+        //             background: 'transparent',
+        //             data: worldTimelineData
+        //         }]
+        //     },
+        //     worldDaily = {
+        //         labels: ["16 Jan", "17 Jan", "18 Jan", "19 Jan", "20 Jan", "21 Jan", "22 Jan", "23 Jan", "24 Jan", "25 Jan", "26 Jan", "27 Jan", "28 Jan", "29 Jan", "30 Jan", "31 Jan", "01 Feb", "02 Feb", "03 Feb", "04 Feb", "05 Feb", "06 Feb", "07 Feb", "08 Feb", "09 Feb", "10 Feb", "11 Feb", "12 Feb", "13 Feb", "14 Feb", "15 Feb", "16 Feb", "17 Feb", "18 Feb", "19 Feb", "20 Feb", "21 Feb", "22 Feb", "23 Feb", "24 Feb", "25 Feb", "26 Feb", "27 Feb", "28 Feb", "01 Mar", "02 Mar", "03 Mar", "04 Mar", "05 Mar", "06 Mar", "07 Mar", "08 Mar", "09 Mar", "10 Mar", "11 Mar", "12 Mar", "13 Mar", "14 Mar", "15 Mar", "16 Mar"],
+        //         dataUnit: 'People',
+        //         lineTension: 0.1,
+        //         datasets: [{
+        //             label: "Ca nhiễm",
+        //             color: "#0971fe",
+        //             background: 'transparent',
+        //             data: [616387, 547641, 513576, 609637, 690689, 654682, 657132, 566416, 445060, 506802, 549357, 513551, 665266, 610405, 514134, 381016, 445221, 456327, 520119, 465339, 533582, 371558, 397253, 314095, 426586, 433803, 440086, 427669, 372311, 292764, 281677, 349280, 394021, 402266, 438528, 369660, 311328, 287442, 386174, 442295, 445124, 440927, 387711, 274365, 304500, 306601, 437105, 452017, 444197, 407547, 365783, 376918, 401429, 464115, 475494, 485656, 452771, 358272, 338842, 476218]
+        //         }]
+        //     },
+        //     worldSpread = {
+        //         labels: ["16 Jan", "17 Jan", "18 Jan", "19 Jan", "20 Jan", "21 Jan", "22 Jan", "23 Jan", "24 Jan", "25 Jan", "26 Jan", "27 Jan", "28 Jan", "29 Jan", "30 Jan", "31 Jan", "01 Feb", "02 Feb", "03 Feb", "04 Feb", "05 Feb", "06 Feb", "07 Feb", "08 Feb", "09 Feb", "10 Feb", "11 Feb", "12 Feb", "13 Feb", "14 Feb", "15 Feb", "16 Feb", "17 Feb", "18 Feb", "19 Feb", "20 Feb", "21 Feb", "22 Feb", "23 Feb", "24 Feb", "25 Feb", "26 Feb", "27 Feb", "28 Feb", "01 Mar", "02 Mar", "03 Mar", "04 Mar", "05 Mar", "06 Mar", "07 Mar", "08 Mar", "09 Mar", "10 Mar", "11 Mar", "12 Mar", "13 Mar", "14 Mar", "15 Mar", "16 Mar"],
+        //         dataUnit: 'People',
+        //         lineTension: 0.1,
+        //         datasets: [{
+        //             label: "Ca nhiễm",
+        //             color: "#0971fe",
+        //             background: 'transparent',
+        //             data: [94181625, 94729266, 95242842, 95852479, 96543168, 97197850, 97854982, 98421398, 98866458, 99373260, 99922617, 100436168, 101101434, 101711839, 102225973, 102606989, 103052210, 103508537, 104028656, 104493995, 105027577, 105399135, 105796388, 106110483, 106537069, 106970872, 107410958, 107838627, 108210938, 108503702, 108785379, 109134659, 109528680, 109930946, 110369474, 110739134, 111050462, 111337904, 111724078, 112166373, 112611497, 113052424, 113440135, 113714500, 114019000, 114325601, 114762706, 115214723, 115658920, 116066467, 116432250, 116809168, 117210597, 117674712, 118150206, 118635862, 119088633, 119446905, 119785747, 120261965]
+        //         }, {
+        //             label: "Tử vong",
+        //             color: "#f6525e",
+        //             background: 'transparent',
+        //             data: [2016186, 2024843, 2034114, 2050926, 2068778, 2085529, 2101419, 2114669, 2123488, 2135474, 2152810, 2169459, 2186249, 2201471, 2214983, 2222915, 2238068, 2252896, 2268502, 2281003, 2297455, 2307847, 2315709, 2323993, 2339486, 2352853, 2366267, 2378679, 2388603, 2394899, 2401738, 2412593, 2423893, 2435032, 2446122, 2454628, 2460492, 2467432, 2478672, 2490707, 2500822, 2511133, 2519288, 2524161, 2531348, 2541727, 2553510, 2563250, 2573214, 2580995, 2586229, 2593036, 2603155, 2612785, 2622731, 2632317, 2641003, 2646479, 2653231, 2663198]
+        //         }, {
+        //             label: "Hồi phục",
+        //             color: "#1ee0ac",
+        //             background: 'transparent',
+        //             data: [51700933, 52011637, 52326601, 52730586, 53056394, 53420103, 53801139, 54119793, 54427332, 54738209, 55067318, 55568616, 55720482, 56084099, 56436501, 56722105, 57026974, 57376662, 57704330, 57993944, 58274039, 58568166, 58865142, 59076014, 59446501, 59714542, 59989871, 60275966, 60520805, 60715486, 61002428, 61236346, 61529475, 61764895, 61998370, 62266954, 62482336, 62664252, 62941920, 63149733, 63376397, 63635735, 63885527, 64059860, 64273970, 64542114, 64770070, 65018915, 65243619, 65478218, 65715080, 65987788, 66248385, 66481260, 66752219, 67018306, 67269415, 67513321, 67800666, 68064462]
+        //         }]
+        //     },
+        //     mapWorldChart = {
+        //         labels: ["16 Jan", "17 Jan", "18 Jan", "19 Jan", "20 Jan", "21 Jan", "22 Jan", "23 Jan", "24 Jan", "25 Jan", "26 Jan", "27 Jan", "28 Jan", "29 Jan", "30 Jan", "31 Jan", "01 Feb", "02 Feb", "03 Feb", "04 Feb", "05 Feb", "06 Feb", "07 Feb", "08 Feb", "09 Feb", "10 Feb", "11 Feb", "12 Feb", "13 Feb", "14 Feb", "15 Feb", "16 Feb", "17 Feb", "18 Feb", "19 Feb", "20 Feb", "21 Feb", "22 Feb", "23 Feb", "24 Feb", "25 Feb", "26 Feb", "27 Feb", "28 Feb", "01 Mar", "02 Mar", "03 Mar", "04 Mar", "05 Mar", "06 Mar", "07 Mar", "08 Mar", "09 Mar", "10 Mar", "11 Mar", "12 Mar", "13 Mar", "14 Mar", "15 Mar", "16 Mar"],
+        //         dataUnit: 'People',
+        //         lineTension: 0.1,
+        //         datasets: [{
+        //             label: "Ca nhiễm",
+        //             color: "#0971fe",
+        //             background: 'transparent',
+        //             data: [1, 547641, 513576, 609637, 690689, 654682, 657132, 566416, 445060, 506802, 549357, 513551, 665266, 610405, 514134, 381016, 445221, 456327, 520119, 465339, 533582, 371558, 397253, 314095, 426586, 433803, 440086, 427669, 372311, 292764, 281677, 349280, 394021, 402266, 438528, 369660, 311328, 287442, 386174, 442295, 445124, 440927, 387711, 274365, 304500, 306601, 437105, 452017, 444197, 407547, 365783, 376918, 401429, 464115, 475494, 485656, 452771, 358272, 338842, 476218]
+        //         }, {
+        //             label: "Tử vong",
+        //             color: "#f6525e",
+        //             background: 'transparent',
+        //             data: [12982, 8657, 9271, 16812, 17852, 16751, 15890, 13250, 8819, 11986, 17336, 16649, 16790, 15222, 13512, 7932, 15153, 14828, 15606, 12501, 16452, 10392, 7862, 8284, 15493, 13367, 13414, 12412, 9924, 6296, 6839, 10855, 11300, 11139, 11090, 8506, 5864, 6940, 11240, 12035, 10115, 10311, 8155, 4873, 7187, 10379, 11783, 9740, 9964, 7781, 5234, 6807, 10119, 9630, 9946, 9586, 8686, 5476, 6752, 9967]
+        //         }, {
+        //             label: "Hồi phục",
+        //             color: "#1ee0ac",
+        //             background: 'transparent',
+        //             data: [318650, 310704, 314964, 403985, 325808, 363709, 381036, 318654, 307539, 310877, 329109, 501298, 151866, 363617, 352402, 285604, 304869, 349688, 327668, 289614, 280095, 294127, 296976, 210872, 370487, 268041, 275329, 286095, 244839, 194681, 286942, 233918, 293129, 235420, 233475, 268584, 215382, 181916, 277668, 207813, 226664, 259338, 249792, 174333, 214110, 268144, 227956, 248845, 224704, 234599, 236862, 272708, 260597, 232875, 270959, 266087, 251109, 243906, 287345, 263796]
+        //         }]
+        //     }
+        //https://mailtrap.io/
+        $('.button-send').click(function () {
+            if ($('.email').val()!='')
+            Email.send({
+                SecureToken: "8de07abd-9e0c-4092-b835-2bd4b0800cf5",
+                To: $('.email').val(),
+                From: "nghainam2000@gmail.com",
+                Subject: "HelloWord",
+                Body: message + `<img style="width: 100px" src="https://media.suckhoedoisong.vn/thumb_1920x787/Images/thuyngan/2020/07/27/covid-19-cap-nhat-moi-nhat-lien-tuc1595849792.jpg" />
+                        <video src="https://www.youtube.com/watch?v=VmC02NhhYow"></video>`,
+                Attachments: [
+                    {
+                        name: "smtpjs.png",
+                        path: "https://networkprogramming.files.wordpress.com/2017/11/smtpjs.png"
+                    }]
+            }).then(
+                message => alert(message)
+                );
+            else alert('Mời bạn nhập lại')
+        })
+        function worldMap(data) {
+            $(document).ready(function () {
+                data.Countries.forEach(item => {
+                    dataWorldMap[item.CountryCode.toLowerCase()] = item.TotalConfirmed
+                })
+    
+                $(".vector-map").each(function () {
+
+                    $(this).vectorMap({
+                        map: 'world_en',
+                        backgroundColor: 'transparent',
+                        borderColor: '#dee6ed',
+                        borderOpacity: 1,
+                        borderWidth: 1,
+                        color: '#e1eeff',
+                        enableZoom: true,
+                        enableDrag: true,
+                        hoverColor: '#0062e7',
+                        hoverOpacity: null,
+                        normalizeFunction: 'polynomial',
+                        scaleColors: ['#eef3f9', '#0060e3'],
+                        selectedColor: '#005ad5',
+                        showTooltip: true,
+                        values: dataWorldMap,
+                        onLabelShow: function (event, label, code) {
+                            //  code=code.toUpperCase()
+                            //console.log(code)
+                            // console.log(data);
+                            //dataMap= data.Countries.find(item=>item.CountryCode.toUpperCase()==code)
+                            var mapData = JQVMap.maps, what = Object.keys(mapData)[0], name = mapData[what].paths[code]['name'];
+                            var db = data.Countries.find(item => item.CountryCode.toLowerCase() === code.toLowerCase())
+                            label.html(name + '</br>Số ca nhiễm: ' + stringProcessing(dataWorldMap[code].toString()) + '</br>Đã hồi phục: ' + stringProcessing(db.TotalRecovered.toString()) + '</br>Tử vong: ' + stringProcessing(db.TotalDeaths.toString()));
+                            // data= data.Countries.find(item=>item.CountryCode.toUpperCase()==code)
+                            // label.html(data.Country + ' - ' + data.TotalConfirmed);
+                        }
+                    })
+                })
+            })
+        }
+    </script>
+</body>
+
+</html>

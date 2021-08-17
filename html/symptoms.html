@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kovid19</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/covstats.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" href="../images/logo-small2x.png">
+</head>
+<body class="nk-body npc-covid ui-default ui-rounder">
+    <div class="nk-app-root">
+        <div class="nk-main">
+
+			<div class="nk-sidebar nk-sidebar-short nk-sidebar-fixed is-light" data-content="sidebarMenu">
+                <div class="nk-sidebar-element nk-sidebar-head">
+                    <div class="nk-sidebar-brand">
+                        <a href="index.html" class="logo-link nk-sidebar-logo">
+                            <img class="logo-light logo-img" src="https://covstats.themenio.com/demo1/images/logo.png" srcset="https://covstats.themenio.com/demo1/images/logo2x.png 2x" alt="">
+                            <img class="logo-dark logo-img" src="https://covstats.themenio.com/demo1/images/logo-dark.png" srcset="https://covstats.themenio.com/demo1/images/logo-dark2x.png 2x" alt="">
+                        </a>
+                        <a href="index.html" class="logo-link nk-sidebar-logo-small">
+                            <img class="logo-light logo-img" src="https://covstats.themenio.com/demo1/images/logo-small.png" srcset="https://covstats.themenio.com/demo1/images/logo-small2x.png 2x" alt="">
+                            <img class="logo-dark logo-img" src="https://covstats.themenio.com/demo1/images/logo-dark-small.png" srcset="https://covstats.themenio.com/demo1/images/logo-dark-small2x.png 2x" alt="">
+                        </a>
+                    </div>
+                    <div class="nk-menu-trigger mr-n2">
+                        <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
+                    </div>
+                </div>
+                <div class="nk-sidebar-element">
+                    <div class="nk-sidebar-body" data-simplebar>
+                        <div class="nk-sidebar-content">
+                            <div class="nk-sidebar-menu nk-sidebar-menu-middle">
+                                
+                                <ul class="nk-menu short-menu">
+                                    <li class="nk-menu-item">
+                                        <a href="../index.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><i class="fas fa-globe-asia"
+                                                    style="width: 100%;"></i></span>
+                                            <span class="nk-menu-text">Tổng quan</span>
+                                            <span class="nk-menu-tooltip" title="Tổng quan"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="./countries.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><i class="fas fa-flag"
+                                                    style="width: 100%;"></i></span>
+                                            <span class="nk-menu-text">Các quốc gia</span>
+                                            <span class="nk-menu-tooltip" title="Các quốc gia"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="./symptoms.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><i class="fas fa-virus"
+                                                    style="width: 100%;"></i></span>
+                                            <span class="nk-menu-text">Các triệu chứng</span>
+                                            <span class="nk-menu-tooltip" title="Các triệu chứng"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="./prevention.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><i class="fas fa-shield-virus"
+                                                    style="width: 100%;"></i></span>
+                                            <span class="nk-menu-text">Cách phòng tránh</span>
+                                            <span class="nk-menu-tooltip" title="Cách phòng tránh"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="./news.html" class="nk-menu-link" target="_blank">
+                                            <span class="nk-menu-icon"><i class="far fa-newspaper"
+                                                    style="width: 100%;"></i></span>
+                                            <span class="nk-menu-text">Tin tức</span>
+                                            <span class="nk-menu-tooltip" title="Tin tức"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="./videos.html" class="nk-menu-link" target="_blank">
+                                            <span class="nk-menu-icon"><i class="fab fa-youtube"
+                                                    style="width: 100%;"></i></span>
+                                            <span class="nk-menu-text">Video</span>
+                                            <span class="nk-menu-tooltip" title="Video"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="./faqs.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><i class="far fa-question-circle"
+                                                    style="width: 100%;"></i></span>
+                                            <!-- <em class="icon ni ni-help"></em> -->
+                                            <span class="nk-menu-text">FAQs</span>
+                                            <span class="nk-menu-tooltip" title="FAQs"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="nk-sidebar-footer d-none d-md-block">
+                                <ul class="nk-menu short-menu">
+                                    <li class="nk-menu-item">
+                                        <a href="#" data-toggle="modal" data-target="#about-app" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-info-fill"></em></span>
+                                            <span class="nk-menu-text">About Data</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <div class="nk-wrap ">
+                
+                <div class="nk-header nk-header-fluid nk-header-fixed nk-header-onlymobile is-light">
+                    <div class="container-fluid">
+                        <div class="nk-header-wrap">
+                            <div class="nk-header-brand">
+                                <a href="index.html" class="logo-link">
+                                    <img class="logo-light logo-img" src="https://covstats.themenio.com/demo1/images/logo.png" srcset="https://covstats.themenio.com/demo1/images/logo2x.png 2x" alt="">
+                                    <img class="logo-dark logo-img" src="https://covstats.themenio.com/demo1/images/logo-dark.png" srcset="https://covstats.themenio.com/demo1/images/logo-dark2x.png 2x" alt="">
+                                </a>
+                            </div>
+                            <div class="nk-menu-trigger ml-auto mr-n1">
+                                <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-body">
+ 							
+ 							
+
+<div class="nk-block-head nk-block-head-sm">
+    <div class="nk-block-between flex-wrap g-1 align-start">
+        <div class="nk-block-head-content">
+            <h5 class="nk-block-title">COVID-19 Coronavirus - Prevention</h5>
+            <p>There’s currently no vaccine to prevent coronavirus disease (COVID-19).</p>
+        </div>
+        <div class="nk-block-head-content">
+            <a href="https://covstats.themenio.com/demo1" class="link"><span>Check Situation</span> <em class="icon ni ni-arrow-long-right"></em></a>
+        </div>
+    </div>
+</div>
+<div class="nk-block">
+    <div class="row g-5">
+        <div class="col-xl-8">
+            <div class="card card-bordered">
+                <div class="card-inner card-inner-lg">
+                    <div class="alert-alt alert-danger alert-icon">
+                        <em class="icon ni ni-help-alt"></em> <strong>Nếu bạn bị sốt, ho và khó thở, hãy nhanh chóng đến cơ sở y tế.<br class="d-none d-lg-block"> Gọi trước và báo cho nhà cung cấp dịch vụ y tế của bạn càng sớm càng tốt để được tư vấn y tế. </strong>
+                    </div>
+                    <div class="entry mt-4 pt-1">
+                        <h4 class="title text-primary">Làm thế nào để bảo vệ bản thân?</h4>
+                        <p><strong>Cách tốt nhất để phòng bệnh là tránh tiếp xúc với loại vi rút này. </strong>Vì không có vắc xin phòng ngừa nên bạn có thể tự bảo vệ mình và giúp ngăn ngừa lây lan vi rút cho người khác nếu bạn làm theo hướng dẫn dưới đây.</p>
+                        <div class="gap gap-md"></div>
+                        <div class="nk-cov-feature-group">
+                            <div class="nk-cov-feature">
+                                <div class="image image-lg is-alt">
+                                    <img src="https://covstats.themenio.com/demo1/images/gfx/covid-prevent-washing.png" alt="">
+                                </div>
+                                <div class="content">
+                                    <h5 class="title">Rửa tay thường xuyên</h5>
+                                    <p>Làm sạch tay thường xuyên và kỹ lưỡng bằng chất tẩy rửa tay có cồn hoặc rửa tay bằng xà phòng và nước trong ít nhất 20 giây.</p>
+                                    <p><strong>Tại sao?</strong> Rửa tay bằng xà phòng và nước hoặc sử dụng cồn xoa tay sẽ tiêu diệt vi rút có thể có trên tay bạn.</p>
+                                </div>
+                            </div>
+                            <div class="nk-cov-feature">
+                                <div class="image image-lg is-alt">
+                                    <img src="https://covstats.themenio.com/demo1/images/gfx/covid-prevent-distance.png" alt="">
+                                </div>
+                                <div class="content">
+                                    <h5 class="title">Giữ khoảng cách tối thiểu 1 mét</h5>
+                                    <p>Duy trì khoảng cách ít nhất 1 mét (3 feet) giữa bạn và bất kỳ ai đang ho hoặc hắt hơi. Nếu bạn ở quá gần, có cơ hội bị lây nhiễm.</p>
+                                    <p><strong>Tại sao?</strong> Khi ai đó ho hoặc hắt hơi, họ sẽ phun ra những giọt chất lỏng nhỏ từ mũi hoặc miệng có thể chứa vi rút. Nếu bạn ở quá gần, bạn có thể hít phải những giọt nước nhỏ giọt, bao gồm cả vi rút COVID-19 nếu người ho mắc bệnh.</p>
+                                </div>
+                            </div>
+                            <div class="nk-cov-feature">
+                                <div class="image image-lg is-alt">
+                                    <img src="https://covstats.themenio.com/demo1/images/gfx/covid-prevent-touch.png" alt="">
+                                </div>
+                                <div class="content">
+                                    <h5 class="title">Tránh chạm vào mặt</h5>
+                                    <p>Không chạm vào mắt, mũi, miệng nếu tay không sạch.</p>
+                                    <p><strong>Tại sao?</strong> Hands touch many surfaces and can pick up viruses. Once contaminated, hands can transfer the virus to your eyes, nose or mouth. From there, the virus can enter your body and can make you sick.</p>
+                                </div>
+                            </div>
+                            <div class="nk-cov-feature">
+                                <div class="image image-lg is-alt">
+                                    <img src="https://covstats.themenio.com/demo1/images/gfx/covid-prevent-hygiene.png" alt="">
+                                </div>
+                                <div class="content">
+                                    <h5 class="title">Practice respiratory hygiene</h5>
+                                    <p>Make sure you, & the people around you, follow good respiratory hygiene. This means covering your mouth & nose with your bent elbow or tissue when you cough or sneeze.</p>
+                                    <p><strong>Tại sao?</strong> Droplets spread virus. By following good respiratory hygiene you protect the people around you from viruses such as cold, flu and COVID-19.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="sub-text mt-5">These are for informational purposes only. Consult your local medical authority for advice. (Source: World Health Organization)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="embed-responsive embed-responsive-16by9" style="width: 100%; height: 200px;">
+                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/bPITHEiFWLc?rel=0" allowfullscreen></iframe>
+            </div>
+            <div class="embed-responsive embed-responsive-16by9 mt-4 pt-1" style="width: 100%; height: 200px;">
+                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/BtulL3oArQw?rel=0" allowfullscreen></iframe>
+            </div>
+            <div class="entry mt-4 pt-1">
+                <h5 class="text-primary">Take steps to protect others</h5>
+                <p>There are things you can do to help reduce the risk of you and anyone you live with getting ill with virus.</p>
+                <ul class="list list-lg list-checked-circle list-success">
+                    <li><strong>Stay home if you’re sick</strong> – Stay home if you are sick, except to get medical care.</li>
+                    <li><strong>Cover your mouth &amp; nose</strong> – with a tissue when you cough or sneeze.</li>
+                    <li><strong>Wear a facemask if you are sick</strong> – You should wear a facemask when you are around other people (e.g., sharing a room or vehicle) and before you enter a healthcare provider’s office.</li>
+                    <li><strong>Clean AND disinfect frequently touched surfaces daily</strong> – This includes phones, tables, doorknobs, light switches, handles, desktops, countertops, toilets etc.</li>
+                    <li><strong>Stay informed about the local COVID-19 situation</strong> – Get up-to-date information about local COVID-19 activity from <a href="#">public health officials.</a></li>
+                </ul>
+            </div>
+            <h5 class="title mt-5 mb-3">Quick Links</h5>
+            <ul class="gy-3">
+                <li><a href="https://covstats.themenio.com/demo1/faqs" class="link link-block link-between"><span>Q&A on Coronaviruses</span><em class="icon ni ni-arrow-long-right"></em></a></li>
+                <li><a href="./symptoms.html" class="link link-block link-between"><span>Symptoms of Coronavirus</span><em class="icon ni ni-arrow-long-right"></em></a></li>
+                <li><a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019" target="_blank" class="link link-block link-between"><span>Learn more on who.int</span><em class="icon ni ni-arrow-long-right"></em></a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="nk-footer d-md-none">
+                    <div class="container-fluid">
+                        <div class="nk-footer-wrap gy-1 gx-4">
+                            <div class="nk-footer-links">
+                                <ul class="nav nav-sm">
+                                    <li class="nav-item"><a class="nav-link" href="#" data-toggle="modal" data-target="#about-app">About Data</a></li>
+                                </ul>
+                            </div>
+                            <div class="nk-footer-copyright"> &copy; 2021, Powered by <a href="https://softnio.com" target="_blank">Softnio</a></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            
+ 		</div>
+	</div>
+    <div class="modal fade" tabindex="-1" id="about-app">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+                <div class="modal-body">
+                    <h6 class="lead-text text-primary">It changes rapidly</h6>
+                    <p>This data changes rapidly, so what’s shown may be out of date. Table totals may not always represent an accurate sum. Information about reported cases is also available on the <a href="https://covid19.who.int/" target="_blank">World Health Organization</a> & <a href="https://www.worldometers.info/coronavirus/" target="_blank">WorldoMeters.info</a> site. Also historical data based on <a href="https://systems.jhu.edu/research/public-health/ncov/" target="_blank">JHU CSSE</a>.</p>
+                    <h6 class="lead-text text-primary">It doesn’t include all cases</h6>
+                    <p>Confirmed cases aren’t all cases. They only include people who tested positive. Testing rules and availability vary by country.</p>
+                    <div class="note-text">Updated: Mar 24, 2021, 16:50 UTC</div>
+                </div>
+                <div class="modal-footer bg-light justify-content-center py-1">
+                    <div class="sub-text">Powered by <a href="https://softnio.com" target="_blank">Softnio</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- <div id="ajax-modal"></div> -->
+        <script src="../js/bundle.js"></script>
+        <script src="../js/scripts.js"></script>
+    </body>
+</html>

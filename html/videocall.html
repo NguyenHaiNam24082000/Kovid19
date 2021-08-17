@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+</head>
+<body >
+    <!--<script src="https://www.gstatic.com/firebasejs/8.4.1/firebase.js"></script>-->
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+         https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <div class="col-lg-9 message-view chat-view">
+        <div class="chat-window">
+            <div class="fixed-header">
+                <div class="navbar">
+                    <div class="user-details mr-auto">
+                        <div class="float-left user-img m-r-10">
+                            <a href="profile.html" title="Mike Litorus"><img src="assets/img/avatar.svg" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
+                        </div>
+                        <div class="user-info float-left">
+                            <a href="profile.html" title="Mike Litorus"><span class="font-bold">Tổng đài tư vấn sức khoẻ</span></a>
+                            <span class="last-seen">Online</span>
+                        </div>
+                    </div>
+                    <input type="text" name="id" placeholder="id" id="peerID" />
+                    <button id="buttonCall" style="cursor: pointer;background: #007bff;color: white;outline: none;border: 2px solid #007bff  ">Call</button>
+                    <ul class="nav custom-menu">
+                        <li class="nav-item">
+                            <a class="task-chat profile-rightbar float-right" href="#chat_sidebar" id="task_chat"><i aria-hidden="true" class="fa fa-comments"></i></a>
+                        </li>
+                        <li class="nav-item dropdown dropdown-action">
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-cog"></i></a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a href="javascript:void(0)" class="dropdown-item">Settings</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="chat-contents" style="height: 82vh">
+                <div class="chat-content-wrap">
+                    <div class="user-video" style="display: flex;align-content: center">
+                        <div id="remoteStream" style="width: 50%;display: inline-flex">
+
+                        </div>
+                        <div id="localStream" style="width: 50%;display: inline-flex">
+                        </div>
+                        
+                    </div>
+                    <!--<div class="my-video" style="width: 200px;height: 150px;">
+                        <ul style="width: 100%;">
+                            <li style="width: 100%">
+                                
+                            </li>
+                        </ul>
+                    </div>-->
+                </div>
+            </div>
+            <div class="chat-footer">
+                <div class="call-icons">
+                    <span class="call-duration">00:00</span>
+                    <ul class="call-items">
+                        <li class="call-item">
+                            <a id="call-peer" style="cursor: pointer" title="" data-placement="top" data-toggle="tooltip" data-original-title="Enable Video">
+                                <i class="fa fa-video-camera camera"></i>
+                            </a>
+                        </li>
+                        <li class="call-item">
+                            <a href="" title="" data-placement="top" data-toggle="tooltip" data-original-title="Mute Audio">
+                                <i class="fa fa-microphone microphone"></i>
+                            </a>
+                        </li>
+                        <li class="call-item">
+                            <a href="" title="" data-placement="top" data-toggle="tooltip" data-original-title="Add User">
+                                <i class="fa fa-user-plus"></i>
+                            </a>
+                        </li>
+                        <li class="call-item">
+                            <a class="share-screen" style="cursor: pointer" title="" data-placement="top" data-toggle="tooltip" data-original-title="Share desktop screen">
+                                <i class="fa fa-desktop"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="end-call">
+                        <a id="end-call" style="cursor: pointer; color: white" href="../index.html">
+                            End Call
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/jquery-3.2.1.min.js"></script>
+    <script src="assets/js/peerjs.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.slimscroll.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/socket.io.min.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            var peer = new Peer()
+            var myStream
+            var currentPeer
+            var peerList=[]
+            peer.on('open', function (id) {
+                console.log(id)
+            })
+            peer.on('call', function (call) {
+                navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
+                    myStream = stream;
+                    addOurVideo(stream)
+                    call.answer(stream)
+                    call.on('stream', function (remoteStream) {
+                        if (!peerList.includes(call.peer)) {
+                            addRemoteVideo(remoteStream)
+                            currentPeer=call.peerConnection
+                            peerList.push(call.peer)
+                        }
+                    })
+                }).catch((err) => {
+                    console.log("err")
+                })
+            })
+            this.document.getElementById('buttonCall').addEventListener("click", function (e) {
+                let remotePeerId = document.getElementById("peerID").value;
+                callPeer(remotePeerId)
+            })
+            this.document.getElementsByClassName('share-screen')[0].addEventListener("click", function (e) {
+                navigator.mediaDevices.getDisplayMedia({
+                    video:
+                        { cursor: 'always' },
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true
+                    }
+                    }
+                ).then((stream) => {
+                    console.log(stream)
+                    let videoTrack = stream.getVideoTracks()[0]
+                    videoTrack.onended = function () {
+                        stopScreenShare()
+                    }
+                        let sender = currentPeer.getSenders().find(function (e) {
+                            return e.track.kind == videoTrack.kind
+                        })
+                        sender.replaceTrack(videoTrack)
+       
+                    }).catch((err) => {
+
+                    })
+            })
+
+            function stopScreenShare() {
+                let videoTrack = myStream.getVideoTracks()[0];
+                var sender = currentPeer.getSenders().find(function (e) {
+                    return e.track.kind == videoTrack.kind
+                })
+                sender.replaceTrack(videoTrack)
+            }
+
+            function callPeer(id) {
+                navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then((stream) => {
+                    myStream = stream;
+                    addOurVideo(stream)
+                    let call = peer.call(id, stream)
+                    call.on('stream', function (remoteStream) {
+                        if (!peerList.includes(call.peer)) {
+                            addRemoteVideo(remoteStream)
+                            peerList.push(call.peer)
+                        }
+                    })
+                }).catch((err) => {
+                    console.log("err")
+                })
+            }
+
+            function addRemoteVideo(stream) {
+                let video = document.createElement("video")
+
+
+                video.classList.add('video')
+                    
+                    video.classList.add('remoteStream')
+                    video.srcObject = stream;
+                video.play();
+                document.getElementById('remoteStream').append(video)
+            }
+
+            function addOurVideo(stream) {
+                let video = document.createElement("video")
+
+                
+                video.classList.add('video')
+                video.srcObject = stream;
+                video.play();
+                document.getElementById('localStream').append(video)
+            }
+            
+        })
+    </script>
+</body>
+</html>

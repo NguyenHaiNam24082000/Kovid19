@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kovid19</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/covstats.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" href="../images/logo-small2x.png">
+    <style>
+        .video iframe {
+            border-radius: 12px !important;
+            outline: none !important;
+            border: 1px solid transparent !important;
+        }
+
+        .button-more {
+            transition: all ease 0.5s;
+        }
+
+            .button-more:hover {
+                background: #2280fe !important;
+                color: white !important;
+            }
+
+        .loading-button {
+            color: transparent !important;
+            text-align: center;
+            font-size: 0;
+            width: 50px !important;
+            height: 50px !important;
+            border-radius: 50% !important;
+            border-left-color: transparent !important;
+            animation: rotate 1.1s ease 0.5s infinite;
+            display: flex;
+            justify-content: center;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(360deg)
+            }
+
+            200% {
+                border-left-color: #2280fe !important;
+            }
+        }
+
+        .success {
+            position: relative;
+            background-color: #2280fe;
+            border-left-color: #2280fe !important;
+            animation: bounce .3s ease-in;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: scale(0.9)
+            }
+        }
+
+        .success:before {
+            content: '';
+            position: absolute;
+            background: url(../images/check.svg) no-repeat;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: 31px !important;
+            height: 31px !important;
+            line-height: 31px !important;
+            top: 10px;
+        }
+
+        .list-videos:hover {
+            background: #f5f6fa;
+            border-radius: 10px;
+        }
+
+        .three-line-paragraph {
+            width: 100%;
+            white-space: pre-wrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            display: -webkit-box;
+        }
+
+        .push-modal {
+            /*            display: none;*/
+            z-index: 500;
+            position: fixed;
+            max-width: 720px;
+            width: 96%;
+            height: auto;
+            top: -1200px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+            background: #fff;
+            transition-delay: 150ms;
+            transition-property: top;
+            transition-duration: 750ms;
+            transition-timing-function: cubic-bezier(0.77, 0, 0.11, 0.97);
+            border-radius: 20px;
+        }
+
+            .push-modal h3 {
+                font-size: 28px;
+                margin: 20px;
+                height: auto;
+                align-content: center;
+                text-align: center;
+            }
+
+            .push-modal p {
+                align-content: center;
+                text-align: center;
+            }
+
+        .push-modal-active {
+            position: fixed;
+            top: 5vh;
+        }
+
+        .modal-cover {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            background: rgba(0,0,0,0.2)
+        }
+    </style>
+</head>
+
+<body class="nk-body npc-covid ui-default ui-rounder">
+    <div class="push-modal" style="z-index: 1000">
+        <div class="close-modal" style="text-align: right;margin: 10px 20px 0px;font-size: 24px; color: #3ea6ff; "><i class="fas fa-times" style="cursor: pointer"></i></div>
+        <div class="modal-video" style="width: 100%;text-align: center;height: auto"></div>
+        <div class="content">
+            <div class="hashtag" style="text-align: left;margin: 10px 20px;"></div>
+            <h3 class="titleMain" style="text-align: left;margin: 10px 20px;"></h3>
+            <div class="main" style="text-align: left;margin: 10px 20px;"></div>
+        </div>
+    </div>
+    <div class="nk-app-root">
+        <div class="nk-main">
+
+            <div class="nk-sidebar nk-sidebar-short nk-sidebar-fixed is-light" data-content="sidebarMenu">
+                <div class="nk-sidebar-element nk-sidebar-head">
+                    <div class="nk-sidebar-brand">
+                        <a href="index.html" class="logo-link nk-sidebar-logo">
+                            <img class="logo-light logo-img" src="https://covstats.themenio.com/demo1/images/logo.png"
+                                 srcset="https://covstats.themenio.com/demo1/images/logo2x.png 2x" alt="">
+                            <img class="logo-dark logo-img"
+                                 src="https://covstats.themenio.com/demo1/images/logo-dark.png"
+                                 srcset="https://covstats.themenio.com/demo1/images/logo-dark2x.png 2x" alt="">
+                        </a>
+                        <a href="index.html" class="logo-link nk-sidebar-logo-small">
+                            <img class="logo-light logo-img"
+                                 src="https://covstats.themenio.com/demo1/images/logo-small.png"
+                                 srcset="https://covstats.themenio.com/demo1/images/logo-small2x.png 2x" alt="">
+                            <img class="logo-dark logo-img"
+                                 src="https://covstats.themenio.com/demo1/images/logo-dark-small.png"
+                                 srcset="https://covstats.themenio.com/demo1/images/logo-dark-small2x.png 2x" alt="">
+                        </a>
+                    </div>
+                    <div class="nk-menu-trigger mr-n2">
+                        <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu">
+                            <em class="icon ni ni-arrow-left"></em>
+                        </a>
+                    </div>
+                </div>
+                <div class="nk-sidebar-element">
+                    <div class="nk-sidebar-body" data-simplebar>
+                        <div class="nk-sidebar-content">
+                            <div class="nk-sidebar-menu nk-sidebar-menu-middle">
+
+                                <ul class="nk-menu short-menu">
+                                    <li class="nk-menu-item">
+                                        <a href="../index.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon">
+                                                <i class="fas fa-globe-asia"
+                                                   style="width: 100%;"></i>
+                                            </span>
+                                            <span class="nk-menu-text">Tổng quan</span>
+                                            <span class="nk-menu-tooltip" title="Tổng quan"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="./countries.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon">
+                                                <i class="fas fa-flag"
+                                                   style="width: 100%;"></i>
+                                            </span>
+                                            <span class="nk-menu-text">Các quốc gia</span>
+                                            <span class="nk-menu-tooltip" title="Các quốc gia"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="./symptoms.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon">
+                                                <i class="fas fa-virus"
+                                                   style="width: 100%;"></i>
+                                            </span>
+                                            <span class="nk-menu-text">Các triệu chứng</span>
+                                            <span class="nk-menu-tooltip" title="Các triệu chứng"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="./prevention.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon">
+                                                <i class="fas fa-shield-virus"
+                                                   style="width: 100%;"></i>
+                                            </span>
+                                            <span class="nk-menu-text">Cách phòng tránh</span>
+                                            <span class="nk-menu-tooltip" title="Cách phòng tránh"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="./news.html" class="nk-menu-link" target="_blank">
+                                            <span class="nk-menu-icon">
+                                                <i class="far fa-newspaper"
+                                                   style="width: 100%;"></i>
+                                            </span>
+                                            <span class="nk-menu-text">Tin tức</span>
+                                            <span class="nk-menu-tooltip" title="Tin tức"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="./videos.html" class="nk-menu-link" target="_blank">
+                                            <span class="nk-menu-icon">
+                                                <i class="fab fa-youtube"
+                                                   style="width: 100%;"></i>
+                                            </span>
+                                            <span class="nk-menu-text">Video</span>
+                                            <span class="nk-menu-tooltip" title="Video"></span>
+                                        </a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="./faqs.html" class="nk-menu-link">
+                                            <span class="nk-menu-icon">
+                                                <i class="far fa-question-circle"
+                                                   style="width: 100%;"></i>
+                                            </span>
+                                            <!-- <em class="icon ni ni-help"></em> -->
+                                            <span class="nk-menu-text">FAQs</span>
+                                            <span class="nk-menu-tooltip" title="FAQs"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="nk-sidebar-footer d-none d-md-block">
+                                <ul class="nk-menu short-menu">
+                                    <li class="nk-menu-item">
+                                        <a href="#" data-toggle="modal" data-target="#about-app" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-info-fill"></em></span>
+                                            <span class="nk-menu-text">About Data</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="nk-wrap ">
+
+                <div class="nk-header nk-header-fluid nk-header-fixed nk-header-onlymobile is-light">
+                    <div class="container-fluid">
+                        <div class="nk-header-wrap">
+                            <div class="nk-header-brand">
+                                <a href="index.html" class="logo-link">
+                                    <img class="logo-light logo-img"
+                                         src="https://covstats.themenio.com/demo1/images/logo.png"
+                                         srcset="https://covstats.themenio.com/demo1/images/logo2x.png 2x" alt="">
+                                    <img class="logo-dark logo-img"
+                                         src="https://covstats.themenio.com/demo1/images/logo-dark.png"
+                                         srcset="https://covstats.themenio.com/demo1/images/logo-dark2x.png 2x" alt="">
+                                </a>
+                            </div>
+                            <div class="nk-menu-trigger ml-auto mr-n1">
+                                <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu">
+                                    <em class="icon ni ni-menu"></em>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-body">
+
+
+
+                            <div class="nk-block-head nk-block-head-sm">
+                                <div class="nk-block-between flex-wrap g-1 align-start">
+                                    <div class="nk-block-head-content">
+                                        <h5 class="nk-block-title">
+                                            Vi-rút corona (COVID-19) - Tin tức thế giới <select name="ytsearch" id="search">
+                                                <option value="Vaccin Covid">Vaccine</option>
+                                                <option value="News Covid">Tin tức toàn cầu</option>
+                                                <option value="Tình hình dịch bệnh">Tin tức Việt Nam</option>
+                                                <option value="ghen covy">Giải trí</option>
+                                            </select>
+                                            <button class="btn-search">Tìm kiếm</button>
+                                        </h5>
+                                        <p>
+                                            Hiện không có vắc xin nào ngăn ngừa hoàn toàn bệnh do coronavirus (COVID-19).
+                                        </p>
+                                    </div>
+                                    <div class="nk-block-head-content">
+                                        <a href="https://covstats.themenio.com/demo1" class="link">
+                                            <span>
+                                                Check
+                                                Situation
+                                            </span> <em class="icon ni ni-arrow-long-right"></em>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nk-block">
+                                <div class="row g-5">
+                                    <div class="col-xl-8">
+                                        <div class="card card-bordered">
+                                            <div class="card-inner card-inner-lg">
+                                                <div class="embed-responsive embed-responsive-16by9 main-video"
+                                                     style="width: 100%; height: 433px; display: flex; justify-content: space-between;">
+
+                                                </div>
+                                                <div class="videos-list">
+
+                                                </div>
+                                                <button class="button-more" style="margin: 20px auto;width: 100%;color: #2280fe;background: transparent ;border: 2px solid #2280fe; border-radius: 10px; outline: none">HIỂN THỊ THÊM</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <div class="embed-responsive embed-responsive-16by9"
+                                             style="width: 100%; height: 200px;">
+                                            <iframe class="embed-responsive-item"
+                                                    src="https://www.youtube.com/embed/bPITHEiFWLc?rel=0"
+                                                    allowfullscreen></iframe>
+                                        </div>
+                                        <div class="embed-responsive embed-responsive-16by9 mt-4 pt-1"
+                                             style="width: 100%; height: 200px;">
+                                            <iframe class="embed-responsive-item"
+                                                    src="https://www.youtube.com/embed/BtulL3oArQw?rel=0"
+                                                    allowfullscreen></iframe>
+                                        </div>
+                                        <div class="entry mt-4 pt-1">
+                                            <h5 class="text-primary">Take steps to protect others</h5>
+                                            <p>
+                                                There are things you can do to help reduce the risk of you and anyone you
+                                                live with getting ill with virus.
+                                            </p>
+                                            <ul class="list list-lg list-checked-circle list-success">
+                                                <li>
+                                                    <strong>Stay home if you’re sick</strong> – Stay home if you are
+                                                    sick, except to get medical care.
+                                                </li>
+                                                <li>
+                                                    <strong>Cover your mouth &amp; nose</strong> – with a tissue when
+                                                    you cough or sneeze.
+                                                </li>
+                                                <li>
+                                                    <strong>Wear a facemask if you are sick</strong> – You should wear a
+                                                    facemask when you are around other people (e.g., sharing a room or
+                                                    vehicle) and before you enter a healthcare provider’s office.
+                                                </li>
+                                                <li>
+                                                    <strong>
+                                                        Clean AND disinfect frequently touched surfaces
+                                                        daily
+                                                    </strong> – This includes phones, tables, doorknobs, light
+                                                    switches, handles, desktops, countertops, toilets etc.
+                                                </li>
+                                                <li>
+                                                    <strong>Stay informed about the local COVID-19 situation</strong> –
+                                                    Get up-to-date information about local COVID-19 activity from <a href="#">public health officials.</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <h5 class="title mt-5 mb-3">Quick Links</h5>
+                                        <ul class="gy-3">
+                                            <li>
+                                                <a href="https://covstats.themenio.com/demo1/faqs"
+                                                   class="link link-block link-between">
+                                                    <span>
+                                                        Q&A on
+                                                        Coronaviruses
+                                                    </span><em class="icon ni ni-arrow-long-right"></em>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="./symptoms.html"
+                                                   class="link link-block link-between">
+                                                    <span>
+                                                        Symptoms of
+                                                        Coronavirus
+                                                    </span><em class="icon ni ni-arrow-long-right"></em>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019"
+                                                   target="_blank" class="link link-block link-between">
+                                                    <span>
+                                                        Learn
+                                                        more on who.int
+                                                    </span><em class="icon ni ni-arrow-long-right"></em>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="nk-footer d-md-none">
+                    <div class="container-fluid">
+                        <div class="nk-footer-wrap gy-1 gx-4">
+                            <div class="nk-footer-links">
+                                <ul class="nav nav-sm">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#" data-toggle="modal"
+                                           data-target="#about-app">About Data</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="nk-footer-copyright">
+                                &copy; 2021, Powered by <a href="https://softnio.com"
+                                                           target="_blank">Softnio</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="modal fade" tabindex="-1" id="about-app">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+                <div class="modal-body">
+                    <h6 class="lead-text text-primary">It changes rapidly</h6>
+                    <p>
+                        This data changes rapidly, so what’s shown may be out of date. Table totals may not always
+                        represent an accurate sum. Information about reported cases is also available on the <a href="https://covid19.who.int/" target="_blank">World Health Organization</a> & <a href="https://www.worldometers.info/coronavirus/" target="_blank">WorldoMeters.info</a>
+                        site. Also historical data based on <a href="https://systems.jhu.edu/research/public-health/ncov/" target="_blank">JHU CSSE</a>.
+                    </p>
+                    <h6 class="lead-text text-primary">It doesn’t include all cases</h6>
+                    <p>
+                        Confirmed cases aren’t all cases. They only include people who tested positive. Testing rules and
+                        availability vary by country.
+                    </p>
+                    <div class="note-text">Updated: Mar 24, 2021, 16:50 UTC</div>
+                </div>
+                <div class="modal-footer bg-light justify-content-center py-1">
+                    <div class="sub-text">Powered by <a href="https://softnio.com" target="_blank">Softnio</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div id="ajax-modal"></div> -->
+    <script src="../js/bundle.js"></script>
+    <script src="../js/scripts.js"></script>
+    <script src="../js/jquery.min.js"></script>
+    <!-- <script src="https://apis.google.com/js/api.js"></script> -->
+    <script>
+        $(document).ready(function () {
+            let description = []
+            let titleMain
+            const key = "AIzaSyD6LK9RSK5ssoUBdF-LEgk2fYmph8_YNjg";
+            const playList = "PLLsO3pH5RkAQaAGgS8dTXa4MaTXjdaHU9"
+            const URLAPI = "https://www.googleapis.com/youtube/v3/playlistItems"
+            const URLSEARCHAPI = 'https://www.googleapis.com/youtube/v3/search'
+            let pageToken = ""
+            loadVideos();
+            function loadVideos() {
+                var options = {
+                    pageToken: pageToken,
+                    part: "snippet",
+                    key: key,
+                    maxResults: 20,
+                    playlistId: playList
+                }
+                $.getJSON(URLAPI, options, function (data) {
+                    console.log(data)
+                    var id = data.items[0].snippet.resourceId.videoId;
+                    var content = data.items[0].snippet.description;
+                    titleMain = data.items[0].snippet.title;
+                    description = []
+                    description.push(content.split('\n'))
+                    mainVideo(id);
+                    resultsloop(data);
+                })
+            }
+            $('.btn-search').click(function () {
+                console.log($('select').find('option:selected').val())
+                var options = {
+                    pageToken: pageToken,
+                    part: "snippet",
+                    key: key,
+                    maxResults: 20,
+                    q: $('select').find('option:selected').val(),
+                    type: "video"
+                }
+                $.getJSON(URLSEARCHAPI, options, function (data) {
+                    console.log(data)
+                    var id = data.items[0].id.videoId;
+                    var content = data.items[0].snippet.description;
+                    titleMain = data.items[0].snippet.title;
+                    description = []
+                    description.push(content.split('\n'))
+                    mainVideo(id);
+                    resultsloopsearch(data);
+                })
+                $('.button-more').css('display', 'none')
+
+            })
+            function mainVideo(id) {
+                $(".main-video").empty()
+                $(".main-video").append(`<iframe class="embed-responsive-item"
+                                                                            src="https://www.youtube.com/embed/${id}"
+                                                                            allowfullscreen></iframe>`)
+                $('.modal-video').empty()
+                $('.modal-video').append(`<iframe class="embed-responsive-item"
+                                                                            src="https://www.youtube.com/embed/${id}"
+                                                                            allowfullscreen style="width: 95%;border: none;border-radius: 10px;margin-top: 10px;height: 500px !important"></iframe>`)
+                $('.hashtag').empty()
+                description[0][0].split(' ').forEach(item => {
+                    $('.hashtag').append(`<a href="https://www.youtube.com/hashtag/${item.split('#')[1]}" target="_blank" style="color: #3ea6ff; cursor: pointer">${item}</a>  `)
+                })
+                $('.titleMain').empty()
+                $('.titleMain').text(titleMain)
+                $('.main').empty()
+                $('.main').text(description[0][1])
+
+                /*                $('.hashtag').append(`<a>${description[0][1]}</a>`)*/
+            }
+            $('.fa-times').click(() => {
+                $('.push-modal').removeClass('push-modal-active');
+                setTimeout(function () {
+                    $('.modal-video').empty()
+                }, 500)
+
+            })
+            $('.button-more').click(function () {
+                $(this).addClass('loading-button')
+                setTimeout(function () {
+                    $('.button-more').addClass('success')
+                }, 2500)
+                setTimeout(function () {
+                    loadVideos();
+
+                }, 3000)
+                setTimeout(function () {
+
+                    $('.button-more').removeClass('loading-button')
+                    $('.button-more').removeClass('success')
+                }, 4500)
+            })
+            function resultsloop(data) {
+                pageToken = data.nextPageToken
+                $.each(data.items, function (i, item) {
+                    var image = item.snippet.thumbnails.medium.url;
+                    var title = item.snippet.title;
+                    var description = item.snippet.description;
+                    var id = item.snippet.resourceId.videoId;
+                    $('.videos-list').append(`<div class="list-videos mt-4 p-2"
+                                                                        style="width: 100%; display: flex; height: auto; cursor: pointer">
+                                                                        <div style="width: 40%;display: inline-block" class="video mr-3">
+                                                                            <img class='video' style="border-radius: 10px;" data-id="${id}" src="${image}">
+                                                                        </div>
+                                                                        <div style="width: 58%;display: inline-block" class="content-video">
+                                                                            <h4>${title}</h4>
+                                                                            <p class="three-line-paragraph">${description}</p>
+                                                                        </div>
+                                                                    </div>`)
+
+                });
+                $('.list-videos').click(function () {
+                    $('.push-modal').toggleClass('push-modal-active');
+                    console.log($(this).find('img').data().id)
+                    description = []
+                    titleMain = $(this).find('h4').text()
+                    description.push($(this).find('p').text().split('\n'))
+                    console.log(description)
+                    mainVideo($(this).find('img').data().id)
+                })
+                //$('body').click(function () {
+                //    $('.modal').toggleClass('modal-cover');
+                //    $('.push-modal').toggleClass('push-modal-active');
+
+                //})
+            }
+        })
+        function resultsloopsearch(data) {
+            $('.videos-list').empty()
+            $.each(data.items, function (i, item) {
+                var image = item.snippet.thumbnails.medium.url;
+                var title = item.snippet.title;
+                var description = item.snippet.description;
+                var id = item.id.videoId;
+
+                $('.videos-list').append(`<div class="list-videos mt-4 p-2"
+                                                                            style="width: 100%; display: flex; height: auto; cursor: pointer">
+                                                                            <div style="width: 40%;display: inline-block" class="video mr-3">
+                                                                                <img class='video' style="border-radius: 10px;" data-id="${id}" src="${image}">
+                                                                            </div>
+                                                                            <div style="width: 58%;display: inline-block" class="content-video">
+                                                                                <h4>${title}</h4>
+                                                                                <p class="three-line-paragraph">${description}</p>
+                                                                            </div>
+                                                                        </div>`)
+
+            });
+            $('.list-videos').click(function () {
+                $('.push-modal').toggleClass('push-modal-active');
+                console.log($(this).find('img').data().id)
+                description = []
+                titleMain = $(this).find('h4').text()
+                description.push($(this).find('p').text().split('\n'))
+                console.log(description)
+                mainVideoSearch($(this).find('img').data().id)
+            })
+            //$('body').click(function () {
+            //    $('.modal').toggleClass('modal-cover');
+            //    $('.push-modal').toggleClass('push-modal-active');
+
+            //})
+        }
+        function mainVideoSearch(id) {
+            $(".main-video").empty()
+            $(".main-video").append(`<iframe class="embed-responsive-item"
+                                                                            src="https://www.youtube.com/embed/${id}"
+                                                                            allowfullscreen></iframe>`)
+            $('.modal-video').empty()
+            $('.modal-video').append(`<iframe class="embed-responsive-item"
+                                                                            src="https://www.youtube.com/embed/${id}"
+                                                                            allowfullscreen style="width: 95%;border: none;border-radius: 10px;margin-top: 10px;height: 500px !important"></iframe>`)
+            $('.hashtag').empty()
+            description[0][0].split(' ').forEach(item => {
+                $('.hashtag').append(`<a href="https://www.youtube.com/hashtag/${item.split('#')[1]}" target="_blank" style="color: #3ea6ff; cursor: pointer">${item}</a>  `)
+            })
+            $('.titleMain').empty()
+            $('.titleMain').text(titleMain)
+            $('.main').empty()
+            $('.main').text(description[0][1])
+
+            /*                $('.hashtag').append(`<a>${description[0][1]}</a>`)*/
+        }
+    </script>
+</body>
+
+</html>

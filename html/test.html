@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3 class="key"></h3>
+    <div>
+        <img src="https://i.ytimg.com/vi/K_n-mtbZPak/hqdefault.jpg?sqp=-oaymwEcCNACELwBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLB2onOxQE1z5oNTII0k1L-U67bPXA" alt="Alternate Text" />
+        <iframe id="player" type="text/html" width="640" height="390"
+                src="http://www.youtube.com/embed/oYphhwCatLE?enablejsapi=1&origin=http://example.com"
+                frameborder="0"></iframe>
+    </div>
+    <video id="local-video" width="300" autoplay></video>
+    <video id="remote-video" width="300" autoplay></video>
+    <input type="text" id="remoteId" placeholder="ID">
+    <button class="btn-makecall btn btn-round btn-outline-primary"
+            style="outline: none;color: #fff;border-color: #fff;padding: 10px 20px;">Call</button>
+        <script src="../js/jquery.min.js"></script>
+        <script>
+
+            const webSocket = new WebSocket("ws://SERVER-IP-HERE:3000");
+            let username
+            function sendUsername() {
+                username = document.getElementById("remoteId").nodeValue
+                sendData({
+                    type: "store_user"
+                })
+            }
+            function sendData(data) {
+                data.username = username
+                webSocket.send(JSON.stringify(data))
+            }
+            function startCall() {
+                navigator.getUserMedia({
+                    video: true,
+                    audio: false
+                })
+            }
+        </script>
+        <!--<script>
+
+            function openStream() {
+                const config = { audio: false, video: true };
+                return navigator.mediaDevices.getUserMedia(config)
+
+            }
+
+            function playStream(idVideoTag, stream) {
+                const video = document.getElementById(idVideoTag)
+                video.srcObject = stream;
+                video.play();
+            }
+            const peer = new Peer()
+            peer.on('open', id => { $('.key').text(id) })
+
+            $('#call').click(function () {
+                const id = $('#remoteId').val()
+                openStream().then(stream => {
+                    playStream('localStream', stream)
+                    const call = peer.call(id, stream)
+                    call.on('stream', remoteStream => playStream('remoteStream', remoteStream))
+                })
+            })
+            peer.on('call', call => {
+                openStream().then(stream => {
+                    call.answer(stream)
+                    playStream('localStream', stream)
+                    call.on('stream', remoteStream => playStream('remoteStream', remoteStream))
+                })
+            })
+        </script>-->
+</body>
+</html>
